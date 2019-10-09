@@ -4,11 +4,11 @@
 //                 test pass/fail status.
 //
 #include <vector>
-#include <iostream>
+//#include <iostream>
 
 class theTest {
 protected:
-	static unsigned int count;
+	static const int count;
 
 public:
 	virtual bool operator() () = 0;
@@ -18,10 +18,11 @@ public:
 class TestHarness {
 private:
 	std::vector<theTest*> myTests;
-	unsigned failed;
+	unsigned passed;
 
 public:
-	TestHarness() : failed(0) {}
+	TestHarness() : passed(0) {}
 	bool execute();
 	void addTest(theTest* newTest);
+	void results();
 };
