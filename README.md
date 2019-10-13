@@ -6,3 +6,4 @@ vector to test out functions with different parameters.
 10/8: Added a try, catch block in the execute method and have one case throw an exception.
       Added a level variable for each test which is set when the test object is created. 
       This is used to control debug messages. Not sure if this is what is wanted?
+
