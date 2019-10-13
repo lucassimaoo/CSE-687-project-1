@@ -83,7 +83,7 @@ public:
 			char str[max];
 			time_t t = time(nullptr);
 			struct tm timeinfo;
-			localtime_s(&timeinfo, &t);
+			//localtime_s(&timeinfo, &t);
 			strftime(str, max, "%D, %H:%M (%I:%M%p)\n", (struct tm*)&timeinfo);
 			printf(str);
 		}
