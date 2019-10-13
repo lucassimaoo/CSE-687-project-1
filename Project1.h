@@ -4,25 +4,21 @@
 //                 test pass/fail status.
 //
 #include <vector>
-//#include <iostream>
 
-class theTest {
-protected:
-	static const int count;
+enum LogLevel {INFO, DEBUG, TRACE};
+
+class TestCase {
+// protected:
 
 public:
+	std::vector<std::string> messages;
+	bool pass;
+	LogLevel level;
 	virtual bool operator() () = 0;
-	virtual ~theTest() {}
 };
 
 class TestHarness {
-private:
-	std::vector<theTest*> myTests;
-	unsigned passed;
-
 public:
-	TestHarness() : passed(0) {}
-	bool execute();
-	void addTest(theTest* newTest);
-	void results();
+	TestHarness() {}
+	bool executor(std::vector<TestCase*> testCases);
 };

@@ -1,15 +1,3 @@
-// Project1.cpp : This file contains the 'main' function. Program execution begins and ends there.
-// This is a test harness class that allows us to define and run many small tests. Each test has a
-// debug level which is set when the test object is created. Each test when run returns a pass/fail 
-// status. As the tests are all called by the test harness without arguments, a functor is used to
-// setup any needed arguments. The debug levels are:
-//     0: Pass/Fail only
-//     1: Some extra debug information
-//     2: Extra debug information as well as the time of day. 
-//
-// The test harness also calls each functor in a try block, so any exceptions can be logged
-// and the test marked as "failed". 
-
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -21,15 +9,19 @@ using namespace std;
 
 // This is the method which calls each test to be tested in the try block. It also keeps
 // a count of number of tests passed. 
-bool TestHarness::execute()
-{
+bool TestHarness::executor(vector<TestCase*> testCases) {
 	std::cout << "execute method called" << endl;
-	for (int i = 0; i < (int)myTests.size(); i++) {
+	for (int i = 0; i < (int)testCases.size(); i++) {
 		try {
-			if (!(*myTests[i])()) cout << "Test Failed " << endl;
-			else {
-				cout << "Test Passed" << endl;
-				passed++;
+
+			TestCase *test = testCases[i];
+			
+			if ((*testCases[i])()) {
+
+				
+				cout << "Test Passed " << endl;
+			} else {
+				cout << "Test Failed " << endl;
 			}
 		}
 		catch (const char* msg) {
@@ -39,35 +31,27 @@ bool TestHarness::execute()
 	return true;
 }
 
-// This adds a test to the test vector
-void TestHarness::addTest(theTest* newTest)
-{
-	myTests.push_back(newTest);
-	std::cout << "Just pushed back a test " << endl;
-}
-
 // Just print out the results
-void TestHarness::results()
+/*void TestHarness::results()
 {
 	cout << "Total Tests Passed: " << passed << endl;
 	cout << "Total Tests Run:    " << myTests.size() << endl;
-}
+}*/
 
-class test1 : public theTest {
-private:
-	int a, b, c;
-	int level;
+class PassInfo : public TestCase {
 
 public:
-	test1(int x, int y, int z, int debug) : a(x), b(y), c(z), level(debug) {}
-	bool operator()()
-	{
-		if ((a + b) > c) return true;
-		return false;
+	PassInfo(LogLevel logLevel) {
+		level = logLevel;
+	}
+	bool operator()() {
+		messages.push_back("All good in here!");
+		pass = true;
+		return true;
 	}
 };
 
-class test2 : public theTest {
+class test2 : public TestCase {
 private:
 	int a, b;
 	int level;
@@ -91,7 +75,7 @@ public:
 	}
 };
 
-class test3 : public theTest {
+class test3 : public TestCase {
 private:
 	int a, b;
 	int level;
@@ -108,11 +92,18 @@ public:
 
 int main()
 {
-	
-    std::cout << "Hello World!\n";
-		
 	class TestHarness th;
-	int debug_level;
+
+	vector<TestCase*> testCases;
+
+	enum LogLevel level = INFO;
+	testCases.push_back(new PassInfo(level));
+
+	bool result = th.executor(testCases);
+
+	cout << "General result: " << result << endl;
+
+	/*int debug_level;
 
 	debug_level = 0;
 	th.addTest(new test1(3, 4, 5, debug_level));
@@ -121,8 +112,6 @@ int main()
 	debug_level = 2;
 	th.addTest(new test3(4, 0, debug_level));
 	th.execute();
-	th.results();
+	th.results();*/
 		
 }
-
-
