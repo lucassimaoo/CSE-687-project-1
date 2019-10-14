@@ -7,18 +7,26 @@
 
 enum LogLevel {INFO, DEBUG, TRACE};
 
-class TestCase {
-// protected:
-
+class TestContext {
 public:
 	std::vector<std::string> messages;
 	bool pass;
 	LogLevel level;
-	virtual bool operator() () = 0;
+	std::string name;
+};
+
+class TestCase {
+public:
+	TestContext context;
+	virtual TestContext operator() () = 0;
 };
 
 class TestHarness {
 public:
 	TestHarness() {}
 	bool executor(std::vector<TestCase*> testCases);
+private:
+	void logInfo(TestContext ctx);
+	void logDebug(TestContext ctx);
+	void logTrace(TestContext ctx);
 };

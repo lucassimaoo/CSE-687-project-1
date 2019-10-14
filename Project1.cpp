@@ -7,111 +7,129 @@
 
 using namespace std;
 
-// This is the method which calls each test to be tested in the try block. It also keeps
-// a count of number of tests passed. 
 bool TestHarness::executor(vector<TestCase*> testCases) {
-	std::cout << "execute method called" << endl;
+
+	// indicates if all tests have passed
+	bool result = true;
+
 	for (int i = 0; i < (int)testCases.size(); i++) {
 		try {
+			TestContext ctx = (*testCases[i])();
+			cout << "Running test " << ctx.name << endl;
 
-			TestCase *test = testCases[i];
-			
-			if ((*testCases[i])()) {
+			switch (ctx.level) {
+				case INFO:
+					logInfo(ctx);
+					break;
 
-				
-				cout << "Test Passed " << endl;
-			} else {
-				cout << "Test Failed " << endl;
+				case DEBUG:
+					logDebug(ctx);
+					break;
+
+				case TRACE:
+					logTrace(ctx);
+					break;
 			}
-		}
-		catch (const char* msg) {
-			cout << "Test Failed: " << msg << endl;
-		}
+
+			if (!ctx.pass) {
+				result = false;
+			}
+
+		} catch (const char* msg) {
+			result = false;
+			cout << "Test Failed " << msg << endl;
+		} 
+
+		cout << "-------------------------------------------" << endl;
 	}
-	return true;
+	return result;
 }
 
-// Just print out the results
-/*void TestHarness::results()
-{
-	cout << "Total Tests Passed: " << passed << endl;
-	cout << "Total Tests Run:    " << myTests.size() << endl;
-}*/
-
-class PassInfo : public TestCase {
-
-public:
-	PassInfo(LogLevel logLevel) {
-		level = logLevel;
+void TestHarness::logInfo(TestContext ctx) {
+	if (ctx.pass) {	
+		cout << "Test Passed " << ctx.name << endl;
+	} else {
+		cout << "Test Failed " << ctx.name << endl;
 	}
-	bool operator()() {
-		messages.push_back("All good in here!");
-		pass = true;
-		return true;
-	}
-};
+}
 
-class test2 : public TestCase {
-private:
-	int a, b;
-	int level;
+void TestHarness::logDebug(TestContext ctx) {
+	logInfo(ctx);
 
-public:
-	test2(int x, int y, int debug) : a(x), b(y), level(debug) {}
-	bool operator()()
-	{
-		if ((a == b) && (level > 0)) cout << "operands close, but not quite" << endl;
-		if (a > b) return true;
-		if (level > 1) {
-			const int max = 80;
-			char str[max];
-			time_t t = time(nullptr);
-			struct tm timeinfo;
-			//localtime_s(&timeinfo, &t);
-			strftime(str, max, "%D, %H:%M (%I:%M%p)\n", (struct tm*)&timeinfo);
-			printf(str);
+	if (ctx.messages.empty()) {
+		cout << "No messages for test " << ctx.name << endl;
+	} else {
+		cout << "Messages for test " << ctx.name << endl;
+		for (int i = 0; i < ctx.messages.size(); i++) {
+			cout << ctx.messages[i] << endl;
 		}
-		return false;
 	}
-};
+}
 
-class test3 : public TestCase {
-private:
-	int a, b;
-	int level;
+void TestHarness::logTrace(TestContext ctx) {
+	logDebug(ctx);
+	//TODO print variable map
+	auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	cout << ctime(&timenow) << endl;
+}
+
+class PassTest : public TestCase {
 
 public:
-	test3(int x, int y, int debug) : a(x), b(y), level(debug) {}
-	bool operator()()
-	{
-		if (b == 0) throw ("divide by zero!");
-		a = a / b;
-		return true;
+	PassTest(LogLevel logLevel, string name) {
+		context.level = logLevel;
+		context.name = name;
+	}
+	TestContext operator()() {
+		context.messages.push_back("All good in here!");
+		context.pass = true;
+		return context;
 	}
 };
 
-int main()
-{
+class FailTest : public TestCase {
+
+public:
+	FailTest(LogLevel logLevel, string name) {
+		context.level = logLevel;
+		context.name = name;
+	}
+	TestContext operator()() {
+		context.messages.push_back("Sometimes stuff just goes wrong!");
+		context.pass = false;
+		return context;
+	}
+};
+
+class ExceptionTest : public TestCase {
+
+public:
+	ExceptionTest(LogLevel logLevel, string name) {
+		context.level = logLevel;
+		context.name = name;
+	}
+	TestContext operator()() {
+		throw ("Oh God something really bad happened!");
+	}
+};
+
+int main() {
 	class TestHarness th;
 
 	vector<TestCase*> testCases;
 
-	enum LogLevel level = INFO;
-	testCases.push_back(new PassInfo(level));
+	testCases.push_back(new PassTest(INFO, "PassInfo"));
+	testCases.push_back(new PassTest(DEBUG, "PassDebug"));
+	testCases.push_back(new PassTest(TRACE, "PassTrace"));
+
+	testCases.push_back(new FailTest(INFO, "FailInfo"));
+	testCases.push_back(new FailTest(DEBUG, "FailDebug"));
+	testCases.push_back(new FailTest(TRACE, "FailTrace"));
+
+	testCases.push_back(new ExceptionTest(TRACE, "FailTrace"));
 
 	bool result = th.executor(testCases);
 
 	cout << "General result: " << result << endl;
-
-	/*int debug_level;
-
-	debug_level = 0;
-	th.addTest(new test1(3, 4, 5, debug_level));
-	debug_level = 2;
-	th.addTest(new test2(6, 7, debug_level));
-	debug_level = 2;
-	th.addTest(new test3(4, 0, debug_level));
-	th.execute();
-	th.results();*/
 		
 }
