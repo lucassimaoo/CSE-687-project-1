@@ -9,40 +9,51 @@ using namespace std;
 
 bool TestHarness::executor(vector<TestCase*> testCases) {
 
-	// indicates if all tests have passed
-	bool result = true;
+	bool haveAllTestsPassed = true;
 
 	for (int i = 0; i < (int)testCases.size(); i++) {
 		try {
+			
 			TestContext ctx = (*testCases[i])();
 			cout << "Running test " << ctx.name << endl;
 
-			switch (ctx.level) {
-				case INFO:
-					logInfo(ctx);
-					break;
-
-				case DEBUG:
-					logDebug(ctx);
-					break;
-
-				case TRACE:
-					logTrace(ctx);
-					break;
-			}
+			log(ctx);
 
 			if (!ctx.pass) {
-				result = false;
+				haveAllTestsPassed = false;
 			}
 
 		} catch (const char* msg) {
-			result = false;
-			cout << "Test Failed " << msg << endl;
+
+			TestContext ctx;
+			ctx.level = defaultLevel;
+			ctx.pass = false;
+			ctx.messages.push_back(msg);
+
+			log(ctx);
+
+			haveAllTestsPassed = false;
 		} 
 
 		cout << "-------------------------------------------" << endl;
 	}
-	return result;
+	return haveAllTestsPassed;
+}
+
+void TestHarness::log(TestContext ctx) {
+	switch (ctx.level) {
+		case INFO:
+		logInfo(ctx);
+		break;
+
+		case DEBUG:
+		logDebug(ctx);
+		break;
+
+		case TRACE:
+		logTrace(ctx);
+		break;
+	}
 }
 
 void TestHarness::logInfo(TestContext ctx) {
@@ -68,7 +79,6 @@ void TestHarness::logDebug(TestContext ctx) {
 
 void TestHarness::logTrace(TestContext ctx) {
 	logDebug(ctx);
-	//TODO print variable map
 	auto timenow = chrono::system_clock::to_time_t(chrono::system_clock::now());
 	cout << ctime(&timenow) << endl;
 }
@@ -114,7 +124,7 @@ public:
 };
 
 int main() {
-	class TestHarness th;
+	class TestHarness th = TestHarness(TRACE);
 
 	vector<TestCase*> testCases;
 

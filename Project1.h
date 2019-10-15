@@ -23,10 +23,12 @@ public:
 
 class TestHarness {
 public:
-	TestHarness() {}
+	TestHarness(LogLevel defaultLevel) {}
 	bool executor(std::vector<TestCase*> testCases);
+	LogLevel defaultLevel;
 private:
 	void logInfo(TestContext ctx);
 	void logDebug(TestContext ctx);
 	void logTrace(TestContext ctx);
+	void log(TestContext ctx);
 };
