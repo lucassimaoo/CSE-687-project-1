@@ -14,35 +14,64 @@
 #include <chrono>
 #include <ctime>
 #include <cstdio>
+#include <exception>
+#include <Windows.h>
 
 #include "Project1.h"
 
 using namespace std;
+using namespace std::chrono;
 
-// This is the method which calls each test to be tested in the try block. It also keeps
-// a count of number of tests passed. 
-bool TestHarness::execute()
+// This is the method which calls each test in myTests and runs it in a try block. If the test fails,
+// messages are printed out depending on the value of the debug_level associated with that test.
+void TestHarness::execute()
 {
 	std::cout << "execute method called" << endl;
+	
+	SYSTEMTIME st;
+	char start_time[84];
+	
 	for (int i = 0; i < (int)myTests.size(); i++) {
+		
+		GetLocalTime(&st);
+
+		sprintf_s(start_time,(size_t)84,"%d/%d/%d  %d:%02d:%02d %d", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+		
 		try {
-			if (!(*myTests[i])()) cout << "Test Failed " << endl;
+			if (!(*myTests[i])()) {
+				cout << "Test Failed " << endl;
+			}
 			else {
 				cout << "Test Passed" << endl;
 				passed++;
+				continue;
 			}
 		}
 		catch (const char* msg) {
 			cout << "Test Failed: " << msg << endl;
 		}
+		catch (exception e) {
+			cout << "Exception detected: " << e.what() << endl;
+		}
+		catch (...) {
+			cout << "Unexpected Exception" << endl;
+		}
+		if (levels[i] >= 1) cout << "level one detected" << endl;
+		if (levels[i] == 2) {
+			cout << "level two detected" << endl;
+			printf("Start Time: %s msec\n", start_time);
+			GetLocalTime(&st);
+			printf("End Time:   %d/%d/%d  %d:%02d:%02d %d msec\n", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+		}
 	}
-	return true;
+	return;
 }
 
 // This adds a test to the test vector
-void TestHarness::addTest(theTest* newTest)
+void TestHarness::addTest(theTest* newTest, int level)
 {
 	myTests.push_back(newTest);
+	levels.push_back(level);
 	std::cout << "Just pushed back a test " << endl;
 }
 
@@ -53,15 +82,22 @@ void TestHarness::results()
 	cout << "Total Tests Run:    " << myTests.size() << endl;
 }
 
+// Destructor, free up the two vectors
+TestHarness::~TestHarness()
+{
+	myTests.clear();
+	levels.clear();
+}
+
 class test1 : public theTest {
 private:
 	int a, b, c;
-	int level;
-
+	
 public:
-	test1(int x, int y, int z, int debug) : a(x), b(y), c(z), level(debug) {}
+	test1(int x, int y, int z) : a(x), b(y), c(z) {}
 	bool operator()()
 	{
+		Sleep(1);
 		if ((a + b) > c) return true;
 		return false;
 	}
@@ -70,23 +106,13 @@ public:
 class test2 : public theTest {
 private:
 	int a, b;
-	int level;
-
+	
 public:
-	test2(int x, int y, int debug) : a(x), b(y), level(debug) {}
+	test2(int x, int y) : a(x), b(y) {}
 	bool operator()()
 	{
-		if ((a == b) && (level > 0)) cout << "operands close, but not quite" << endl;
+		Sleep(2);
 		if (a > b) return true;
-		if (level > 1) {
-			const int max = 80;
-			char str[max];
-			time_t t = time(nullptr);
-			struct tm timeinfo;
-			//localtime_s(&timeinfo, &t);
-			strftime(str, max, "%D, %H:%M (%I:%M%p)\n", (struct tm*)&timeinfo);
-			printf(str);
-		}
 		return false;
 	}
 };
@@ -94,12 +120,12 @@ public:
 class test3 : public theTest {
 private:
 	int a, b;
-	int level;
-
+	
 public:
-	test3(int x, int y, int debug) : a(x), b(y), level(debug) {}
+	test3(int x, int y) : a(x), b(y) {}
 	bool operator()()
 	{
+		Sleep(3);
 		if (b == 0) throw ("divide by zero!");
 		a = a / b;
 		return true;
@@ -115,14 +141,13 @@ int main()
 	int debug_level;
 
 	debug_level = 0;
-	th.addTest(new test1(3, 4, 5, debug_level));
+	th.addTest(new test1(3, 4, 5), debug_level);
 	debug_level = 2;
-	th.addTest(new test2(6, 7, debug_level));
+	th.addTest(new test2(6, 7), debug_level);
 	debug_level = 2;
-	th.addTest(new test3(4, 0, debug_level));
+	th.addTest(new test3(4, 0), debug_level);
 	th.execute();
 	th.results();
-		
 }
 
 

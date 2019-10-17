@@ -8,7 +8,7 @@
 
 class theTest {
 protected:
-	static const int count;
+	int level;
 
 public:
 	virtual bool operator() () = 0;
@@ -18,11 +18,13 @@ public:
 class TestHarness {
 private:
 	std::vector<theTest*> myTests;
+	std::vector<int> levels;
 	unsigned passed;
 
 public:
 	TestHarness() : passed(0) {}
-	bool execute();
-	void addTest(theTest* newTest);
+	~TestHarness();
+	void execute();
+	void addTest(theTest* newTest, int debug_level);
 	void results();
 };
