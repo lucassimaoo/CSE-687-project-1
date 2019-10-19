@@ -13,9 +13,6 @@ Date: 10/15/2019
 // Unit Test #1
 TestPredicate unitTest1()
 {
-    // Capture Test Start Time
-    SYSTEMTIME startTime, endTime;
-	GetLocalTime(&startTime);
     vector<string> applicationSpecificMessages = { "Testing if (num1 + num2) == sum" };
 
     int num1 = 3;
@@ -31,11 +28,8 @@ TestPredicate unitTest1()
     // Run Test and Capture Test Results
     bool result = (sum == (num1 + num2));
 
-    // Capture Test End Time
-    GetLocalTime(&endTime);
-
     // Generate Test Predicate
-    TestPredicate testPredicate(result, applicationSpecificMessages, applicationState, startTime, endTime);
+    TestPredicate testPredicate(result, applicationSpecificMessages, applicationState);
 
     return testPredicate;
 }
@@ -43,10 +37,6 @@ TestPredicate unitTest1()
 // Unit Test #2
 TestPredicate unitTest2()
 {
-    // Capture Test Start Time
-   	SYSTEMTIME startTime, endTime;
-	GetLocalTime(&startTime);
-
     vector<string> applicationSpecificMessages = { "Testing if (num1 + num2) > num3" };
 
     int num1 = 3;
@@ -62,11 +52,8 @@ TestPredicate unitTest2()
     // Run Test and Capture Test Results
     bool result = ((num1 + num2) > num3);
 
-    // Capture Test End Time
-    GetLocalTime(&endTime);
-
     // Generate Test Predicate
-    TestPredicate testPredicate(result, applicationSpecificMessages, applicationState, startTime, endTime);
+    TestPredicate testPredicate(result, applicationSpecificMessages, applicationState);
 
     return testPredicate;
 }
@@ -74,10 +61,6 @@ TestPredicate unitTest2()
 // Unit Test #3
 TestPredicate unitTest3()
 {
-    // Capture Test Start Time
-    SYSTEMTIME startTime, endTime;
-	GetLocalTime(&startTime);
-
     vector<string> applicationSpecificMessages = { "Testing what happens if an exception is thrown" };
 
     // Capture Application/Test State
@@ -88,11 +71,8 @@ TestPredicate unitTest3()
     // Run Test and Capture Test Results
     bool result = true;
 
-    // Capture Test End Time
-    GetLocalTime(&endTime);
-
     // Generate Test Predicate
-    TestPredicate testPredicate(result, applicationSpecificMessages, applicationState, startTime, endTime);
+    TestPredicate testPredicate(result, applicationSpecificMessages, applicationState);
 
     return testPredicate;
 }

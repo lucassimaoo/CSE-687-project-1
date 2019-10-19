@@ -24,12 +24,14 @@ using std::vector;
 
 class TestPredicate {
 public:
-    TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState, SYSTEMTIME startTime, SYSTEMTIME endTime);
+    TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState);
     bool getResult();
     vector<string> getApplicationSpecificMessages();
     map<string, string> getApplicationState();
     SYSTEMTIME getStartTime();
-	SYSTEMTIME getEndTime();
+    SYSTEMTIME getEndTime();
+    void setStartTime(SYSTEMTIME startTime);
+    void setEndTime(SYSTEMTIME endTime);
 private:
     bool result; // Holds Test Result
     vector<string> applicationSpecificMessages; // Holds Application Specific Messages
