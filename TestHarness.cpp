@@ -96,8 +96,18 @@ bool TestHarness::execute(TestPredicate(*unitTest)()) {
 
     try
     {
+
+        // Capture Test Start Time
+        SYSTEMTIME startTime, endTime;
+        GetLocalTime(&startTime);
+
         // Run Unit Test
         TestPredicate testPredicate = unitTest();
+
+        // Capture Test End Time
+        GetLocalTime(&endTime);
+        testPredicate.setStartTime(startTime);
+        testPredicate.setEndTime(endTime);
 
         // Save Test Result
         testResult = testPredicate.getResult();
