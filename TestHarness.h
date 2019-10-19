@@ -31,7 +31,7 @@ private:
     void logTestPredicateApplicationMessages(TestPredicate testPredicate);
     void logTestPredicateApplicationState(TestPredicate testPredicate);
     string getLogLevel();
-    string convertTimeToStr(time_t time);
+   	string convertTimeToStr(SYSTEMTIME st);
 };
 
 #endif 

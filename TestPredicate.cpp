@@ -19,7 +19,7 @@ using std::string;
 using std::time_t;
 using std::vector;
 
-TestPredicate::TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState, time_t startTime, time_t endTime) {
+TestPredicate::TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState, SYSTEMTIME startTime, SYSTEMTIME endTime) {
     this->result = result;
     this->applicationSpecificMessages = applicationSpecificMessages;
     this->applicationState = applicationState;
@@ -46,13 +46,13 @@ map<string, string> TestPredicate::getApplicationState()
 }
 
 // Get Test Start Time
-time_t TestPredicate::getStartTime()
+SYSTEMTIME TestPredicate::getStartTime()
 {
     return this->startTime;
 }
 
 // Get Test End Time
-time_t TestPredicate::getEndTime()
+SYSTEMTIME TestPredicate::getEndTime()
 {
     return this->endTime;
 }
