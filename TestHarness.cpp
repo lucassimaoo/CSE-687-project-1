@@ -12,6 +12,7 @@ Date: 10/15/2019
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <iomanip>
 #include "TestHarness.h"
 
 using std::cout;
@@ -53,12 +54,14 @@ string TestHarness::getLogLevel()
 }
 
 // Get the string version of the time, test
-string TestHarness::convertTimeToStr(time_t time) {
-    struct tm localTime;
-    localtime_s(&localTime, &time);
+string TestHarness::convertTimeToStr(SYSTEMTIME st) {
+
+   	GetLocalTime(&st);
+
     std::ostringstream strStream;
 
-    strStream << (localTime.tm_year + 1900) << "-" << (localTime.tm_mon + 1) << "-" << (localTime.tm_mday) << " " << (localTime.tm_hour > 12 ? localTime.tm_hour - 12 : localTime.tm_hour) << ":" << (localTime.tm_min) << ":" << (localTime.tm_sec) << " " << (localTime.tm_hour >= 12 ? "PM" : "AM");
+   	strStream << st.wDay << "/" << st.wMonth << "/" << st.wYear << "  " << st.wHour << ":" << std::setfill('0') << std::setw(2) << std::right;
+	strStream << st.wMinute << ":" << std::setfill('0') << std::setw(2) << std::right << st.wSecond << "  " << st.wMilliseconds << " msecs" << endl;
 
     string timeStr = strStream.str();
 

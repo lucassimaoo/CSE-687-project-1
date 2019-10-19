@@ -14,7 +14,8 @@ Date: 10/15/2019
 TestPredicate unitTest1()
 {
     // Capture Test Start Time
-    time_t startTime = std::time(0);
+    SYSTEMTIME startTime, endTime;
+	GetLocalTime(&startTime);
     vector<string> applicationSpecificMessages = { "Testing if (num1 + num2) == sum" };
 
     int num1 = 3;
@@ -31,7 +32,7 @@ TestPredicate unitTest1()
     bool result = (sum == (num1 + num2));
 
     // Capture Test End Time
-    time_t endTime = std::time(0);
+    GetLocalTime(&endTime);
 
     // Generate Test Predicate
     TestPredicate testPredicate(result, applicationSpecificMessages, applicationState, startTime, endTime);
@@ -43,7 +44,9 @@ TestPredicate unitTest1()
 TestPredicate unitTest2()
 {
     // Capture Test Start Time
-    time_t startTime = std::time(0);
+   	SYSTEMTIME startTime, endTime;
+	GetLocalTime(&startTime);
+
     vector<string> applicationSpecificMessages = { "Testing if (num1 + num2) > num3" };
 
     int num1 = 3;
@@ -60,7 +63,7 @@ TestPredicate unitTest2()
     bool result = ((num1 + num2) > num3);
 
     // Capture Test End Time
-    time_t endTime = std::time(0);
+    GetLocalTime(&endTime);
 
     // Generate Test Predicate
     TestPredicate testPredicate(result, applicationSpecificMessages, applicationState, startTime, endTime);
@@ -72,7 +75,9 @@ TestPredicate unitTest2()
 TestPredicate unitTest3()
 {
     // Capture Test Start Time
-    time_t startTime = std::time(0);
+    SYSTEMTIME startTime, endTime;
+	GetLocalTime(&startTime);
+
     vector<string> applicationSpecificMessages = { "Testing what happens if an exception is thrown" };
 
     // Capture Application/Test State
@@ -84,7 +89,7 @@ TestPredicate unitTest3()
     bool result = true;
 
     // Capture Test End Time
-    time_t endTime = std::time(0);
+    GetLocalTime(&endTime);
 
     // Generate Test Predicate
     TestPredicate testPredicate(result, applicationSpecificMessages, applicationState, startTime, endTime);
