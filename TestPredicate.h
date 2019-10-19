@@ -29,9 +29,9 @@ public:
     vector<string> getApplicationSpecificMessages();
     map<string, string> getApplicationState();
     SYSTEMTIME getStartTime();
-	SYSTEMTIME getEndTime();
+    SYSTEMTIME getEndTime();
     void setStartTime(SYSTEMTIME startTime);
-	void setEndTime(SYSTEMTIME endTime);
+    void setEndTime(SYSTEMTIME endTime);
 private:
     bool result; // Holds Test Result
     vector<string> applicationSpecificMessages; // Holds Application Specific Messages
