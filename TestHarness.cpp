@@ -52,7 +52,7 @@ string TestHarness::getLogLevel()
     return logLevel;
 }
 
-// Get the string version of the time
+// Get the string version of the time, test
 string TestHarness::convertTimeToStr(time_t time) {
     struct tm localTime;
     localtime_s(&localTime, &time);
