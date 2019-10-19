@@ -74,6 +74,8 @@ void TestHarness::runUnitTests()
     cout << "Running Unit Tests (With a Log Level of " << this->getLogLevel() << ")" << "\n\n" << endl;
 
     int testCounter = 1;
+	int failCounter = 0;
+	int passCounter = 0;
     for (auto unitTest : unitTests)
     {
         cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
@@ -85,9 +87,20 @@ void TestHarness::runUnitTests()
         cout << "--------------------------------------------" << endl;
         cout << "Test " << std::to_string(testCounter) << " Completed: Result -> " << (testResult == true ? "Pass" : "Fail") << endl << endl;
         testCounter++; // Update Test Counter
+
+		if (testResult == true) {
+			passCounter++; // Update passed test counter
+		}
+		else {
+			failCounter++; // Update failed test counter
+		}
     }
 
-    cout << "FINISHED RUNNING ALL UNIT TESTS...\n\n" << endl;
+	this->failCount = failCounter;
+	this->passCount = passCounter;
+
+    cout << "FINISHED RUNNING ALL UNIT TESTS..." << endl;
+	cout << "Pass: " << std::to_string(passCount) << " Fail: " << std::to_string(failCount) << "\n\n" << endl;
 }
 
 // Runs Unit Tests and Return Test Result

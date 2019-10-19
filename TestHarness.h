@@ -26,6 +26,8 @@ public:
 private:
     LogLevel logLevel;
     vector<TestPredicate(*)()> unitTests;
+	int failCount;
+	int passCount;
     bool execute(TestPredicate(*)());
     void logTestPredicate(TestPredicate testPredicate);
     void logTestPredicateApplicationMessages(TestPredicate testPredicate);
