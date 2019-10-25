@@ -14,22 +14,24 @@ Date: 10/15/2019
 #include <string>
 #include <iomanip>
 #include "TestHarness.h"
+#include "pugixml.hpp"
 
+using namespace pugi;
 using std::cout;
 using std::endl;
 using std::exception;
 
-TestHarness::TestHarness(TestHarness::LogLevel logLevel, vector<TestPredicate(*)()> unitTests)
+TestHarness::TestHarness(TestHarness::LogLevel logLevel, std::string file)
 {
     this->logLevel = logLevel;
-    this->unitTests = unitTests;
+    this->file = file;
     cout << "Starting Test Harness..." << endl;
 }
 
 // Desconstuctor
 TestHarness::~TestHarness()
 {
-    this->unitTests.clear();
+    //this->unitTests.clear();
 }
 
 // Get Log Level as a string
@@ -76,13 +78,20 @@ void TestHarness::runUnitTests()
     int testCounter = 1;
 	int failCounter = 0;
 	int passCounter = 0;
-    for (auto unitTest : unitTests)
-    {
+
+	pugi::xml_document doc;
+	doc.load_file(file.c_str());
+	
+	for (pugi::xml_node child : doc.child("tests").children())
+	{
+		//use this to load the DLL
+		child.attribute("library").value();
+
         cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
         cout << "--------------------------------------------" << endl;
         cout << "Test Details: " << endl;
 
-        bool testResult = this->execute(unitTest);
+		bool testResult = true; /*this->execute(unitTest);*/
 
         cout << "--------------------------------------------" << endl;
         cout << "Test " << std::to_string(testCounter) << " Completed: Result -> " << (testResult == true ? "Pass" : "Fail") << endl << endl;

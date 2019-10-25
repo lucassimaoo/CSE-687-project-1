@@ -8,26 +8,27 @@
 
 int main()
 {
+	
     // Create collection of unit tests we want to run
-    vector<TestPredicate(*)()> unitTests = {};
+    /*vector<TestPredicate(*)()> unitTests = {};
     unitTests.insert(unitTests.end(), unitTest1);
     unitTests.insert(unitTests.end(), unitTest2);
-    unitTests.insert(unitTests.end(), unitTest3);
+    unitTests.insert(unitTests.end(), unitTest3);*/
 
     // Create Test Harness (RESULT Log Level) and supply unit tests
-    TestHarness testHarness(TestHarness::LogLevel::RESULT, unitTests);
+    TestHarness testHarness(TestHarness::LogLevel::RESULT, "tests.xml");
 
     // Run Unit Tests
     testHarness.runUnitTests();
 
     // Create Test Harness (INFO Log Level) and supply unit tests
-    TestHarness testHarness2(TestHarness::LogLevel::INFO, unitTests);
+    TestHarness testHarness2(TestHarness::LogLevel::INFO, "tests.xml");
 
     // Run Unit Tests
     testHarness2.runUnitTests();
 
     // Create Test Harness (DEBUG Log Level) and supply unit tests
-    TestHarness testHarness3(TestHarness::LogLevel::DEBUG, unitTests);
+    TestHarness testHarness3(TestHarness::LogLevel::DEBUG, "tests.xml");
 
     // Run Unit Tests
     testHarness3.runUnitTests();

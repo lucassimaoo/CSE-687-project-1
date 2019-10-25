@@ -20,12 +20,12 @@ using std::vector;
 class TestHarness {
 public:
     enum LogLevel { RESULT, INFO, DEBUG };
-    TestHarness(TestHarness::LogLevel logLevel, vector<TestPredicate(*)()> unitTests);
+    TestHarness(TestHarness::LogLevel logLevel, string file);
     ~TestHarness();
     void runUnitTests();
 private:
     LogLevel logLevel;
-    vector<TestPredicate(*)()> unitTests;
+	string file;
 	int failCount;
 	int passCount;
     bool execute(TestPredicate(*)());

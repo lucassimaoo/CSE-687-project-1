@@ -152,11 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Project1.cpp" />
+    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="TestHarness.cpp" />
     <ClCompile Include="TestPredicate.cpp" />
     <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="pugiconfig.hpp" />
+    <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="TestHarness.h" />
     <ClInclude Include="TestPredicate.h" />
     <ClInclude Include="UnitTests.h" />
