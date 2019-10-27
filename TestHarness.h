@@ -17,18 +17,24 @@ using std::vector;
 #ifndef TESTHARNESS
 #define TESTHARNESS
 
+struct TestReturn {
+	bool result;
+	std::vector<std::string> applicationSpecificMessages;
+	std::map<std::string, std::string> applicationState;
+};
+
 class TestHarness {
 public:
     enum LogLevel { RESULT, INFO, DEBUG };
-    TestHarness(TestHarness::LogLevel logLevel, vector<TestPredicate(*)()> unitTests);
+    TestHarness(TestHarness::LogLevel logLevel, string file);
     ~TestHarness();
     void runUnitTests();
 private:
     LogLevel logLevel;
-    vector<TestPredicate(*)()> unitTests;
+	string file;
 	int failCount;
 	int passCount;
-    bool execute(TestPredicate(*)());
+    bool execute(TestReturn(*)());
     void logTestPredicate(TestPredicate testPredicate);
     void logTestPredicateApplicationMessages(TestPredicate testPredicate);
     void logTestPredicateApplicationState(TestPredicate testPredicate);

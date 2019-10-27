@@ -13,23 +13,28 @@ Date: 10/15/2019
 #include <sstream>
 #include <string>
 #include <iomanip>
+#include <windows.h>
 #include "TestHarness.h"
+#include "pugixml.hpp"
 
+using namespace pugi;
 using std::cout;
 using std::endl;
 using std::exception;
 
-TestHarness::TestHarness(TestHarness::LogLevel logLevel, vector<TestPredicate(*)()> unitTests)
+typedef TestReturn(__cdecl* ITEST)();
+
+TestHarness::TestHarness(TestHarness::LogLevel logLevel, std::string file)
 {
     this->logLevel = logLevel;
-    this->unitTests = unitTests;
+    this->file = file;
     cout << "Starting Test Harness..." << endl;
 }
 
 // Desconstuctor
 TestHarness::~TestHarness()
 {
-    this->unitTests.clear();
+    //this->unitTests.clear();
 }
 
 // Get Log Level as a string
@@ -76,13 +81,42 @@ void TestHarness::runUnitTests()
     int testCounter = 1;
 	int failCounter = 0;
 	int passCounter = 0;
-    for (auto unitTest : unitTests)
-    {
-        cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
-        cout << "--------------------------------------------" << endl;
-        cout << "Test Details: " << endl;
 
-        bool testResult = this->execute(unitTest);
+	pugi::xml_document doc;
+	doc.load_file(file.c_str());
+	
+	for (pugi::xml_node child : doc.child("tests").children())
+	{
+
+		bool testResult = false;
+
+		cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
+		cout << "--------------------------------------------" << endl;
+		cout << "Test Details: " << endl;
+
+		//use this to load the DLL
+		std::string dll = child.attribute("library").value();
+
+		HINSTANCE hinstLib = LoadLibraryA(dll.c_str());
+
+		if (hinstLib != NULL)
+		{
+			ITEST itest = (ITEST) GetProcAddress(hinstLib, "ITest");
+
+			// If the function address is valid, call the function.
+			if (NULL != itest)
+			{
+				this->execute(itest);
+			}
+			else {
+				cout << "could not find ITest method in DLL " << dll << endl;
+			}
+			// Free the DLL module.
+			FreeLibrary(hinstLib);
+		}
+		else {
+			cout << "could not load DLL " << dll << endl;
+		}
 
         cout << "--------------------------------------------" << endl;
         cout << "Test " << std::to_string(testCounter) << " Completed: Result -> " << (testResult == true ? "Pass" : "Fail") << endl << endl;
@@ -104,7 +138,7 @@ void TestHarness::runUnitTests()
 }
 
 // Runs Unit Tests and Return Test Result
-bool TestHarness::execute(TestPredicate(*unitTest)()) {
+bool TestHarness::execute(TestReturn(*unitTest)()) {
     bool testResult = false;
 
     try
@@ -115,7 +149,9 @@ bool TestHarness::execute(TestPredicate(*unitTest)()) {
         GetLocalTime(&startTime);
 
         // Run Unit Test
-        TestPredicate testPredicate = unitTest();
+        TestReturn testReturn = unitTest();
+		TestPredicate testPredicate(testReturn.result, testReturn.applicationSpecificMessages, testReturn.applicationState);
+
 
         // Capture Test End Time
         GetLocalTime(&endTime);

@@ -33,3 +33,7 @@
 
 #vscode files
 .vscode/
+
+.vs/
+Debug/
+*.vcxproj*
