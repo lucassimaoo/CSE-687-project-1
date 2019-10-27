@@ -13,6 +13,7 @@ Date: 10/15/2019
 #include <sstream>
 #include <string>
 #include <iomanip>
+#include <windows.h>
 #include "TestHarness.h"
 #include "pugixml.hpp"
 
@@ -20,6 +21,8 @@ using namespace pugi;
 using std::cout;
 using std::endl;
 using std::exception;
+
+typedef TestReturn(__cdecl* ITEST)();
 
 TestHarness::TestHarness(TestHarness::LogLevel logLevel, std::string file)
 {
@@ -84,14 +87,36 @@ void TestHarness::runUnitTests()
 	
 	for (pugi::xml_node child : doc.child("tests").children())
 	{
+
+		bool testResult = false;
+
+		cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
+		cout << "--------------------------------------------" << endl;
+		cout << "Test Details: " << endl;
+
 		//use this to load the DLL
-		child.attribute("library").value();
+		std::string dll = child.attribute("library").value();
 
-        cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
-        cout << "--------------------------------------------" << endl;
-        cout << "Test Details: " << endl;
+		HINSTANCE hinstLib = LoadLibraryA(dll.c_str());
 
-		bool testResult = true; /*this->execute(unitTest);*/
+		if (hinstLib != NULL)
+		{
+			ITEST itest = (ITEST) GetProcAddress(hinstLib, "ITest");
+
+			// If the function address is valid, call the function.
+			if (NULL != itest)
+			{
+				this->execute(itest);
+			}
+			else {
+				cout << "could not find ITest method in DLL " << dll << endl;
+			}
+			// Free the DLL module.
+			FreeLibrary(hinstLib);
+		}
+		else {
+			cout << "could not load DLL " << dll << endl;
+		}
 
         cout << "--------------------------------------------" << endl;
         cout << "Test " << std::to_string(testCounter) << " Completed: Result -> " << (testResult == true ? "Pass" : "Fail") << endl << endl;
@@ -113,7 +138,7 @@ void TestHarness::runUnitTests()
 }
 
 // Runs Unit Tests and Return Test Result
-bool TestHarness::execute(TestPredicate(*unitTest)()) {
+bool TestHarness::execute(TestReturn(*unitTest)()) {
     bool testResult = false;
 
     try
@@ -124,7 +149,9 @@ bool TestHarness::execute(TestPredicate(*unitTest)()) {
         GetLocalTime(&startTime);
 
         // Run Unit Test
-        TestPredicate testPredicate = unitTest();
+        TestReturn testReturn = unitTest();
+		TestPredicate testPredicate(testReturn.result, testReturn.applicationSpecificMessages, testReturn.applicationState);
+
 
         // Capture Test End Time
         GetLocalTime(&endTime);

@@ -1,5 +1,3 @@
 <tests>
-    <driver library='SUM.dll'/>
-    <driver library='TEST.dll'/>
-    <driver library='MOCK.dll'/>
+    <driver library='Library1\\x64\\Debug\\Library1.dll'/>
 </tests>
