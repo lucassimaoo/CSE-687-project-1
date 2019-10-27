@@ -1,5 +1,5 @@
 <tests>
     <driver library='Library1\\x64\\Debug\\Library1.dll'/>
-    <driver library='Library1\\x64\\Debug\\Library1.dll'/>
-    <driver library='Library1\\x64\\Debug\\Library1.dll'/>
+    <driver library='Library2\\x64\\Debug\\Library2.dll'/>
+    <driver library='Library3\\x64\\Debug\\Library3.dll'/>
 </tests>
