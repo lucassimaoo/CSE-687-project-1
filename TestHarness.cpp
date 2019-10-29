@@ -106,7 +106,7 @@ void TestHarness::runUnitTests()
 			// If the function address is valid, call the function.
 			if (NULL != itest)
 			{
-				this->execute(itest);
+				testResult = this->execute(itest);
 			}
 			else {
 				cout << "could not find ITest method in DLL " << dll << endl;
