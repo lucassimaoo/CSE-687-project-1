@@ -15,6 +15,7 @@ Date: 10/15/2019
 #include <iomanip>
 #include <windows.h>
 #include "TestHarness.h"
+#include "TestLogger.h"
 #include "pugixml.hpp"
 
 using namespace pugi;
@@ -28,6 +29,8 @@ TestHarness::TestHarness(TestHarness::LogLevel logLevel, std::string file)
 {
     this->logLevel = logLevel;
     this->file = file;
+    this->passCount = 0;
+    this->failCount = 0;
     cout << "Starting Test Harness..." << endl;
 }
 
@@ -56,21 +59,6 @@ string TestHarness::getLogLevel()
     }
 
     return logLevel;
-}
-
-// Get the string version of the time, test
-string TestHarness::convertTimeToStr(SYSTEMTIME st) {
-
-   	GetLocalTime(&st);
-
-    std::ostringstream strStream;
-
-   	strStream << st.wDay << "/" << st.wMonth << "/" << st.wYear << "  " << st.wHour << ":" << std::setfill('0') << std::setw(2) << std::right;
-	strStream << st.wMinute << ":" << std::setfill('0') << std::setw(2) << std::right << st.wSecond << "  " << st.wMilliseconds << " msecs" << endl;
-
-    string timeStr = strStream.str();
-
-    return timeStr;
 }
 
 // Begins Running all unit Test
@@ -178,46 +166,22 @@ void TestHarness::logTestPredicate(TestPredicate testPredicate)
     switch (this->logLevel)
     {
     case TestHarness::LogLevel::RESULT:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl;
+    {
+        TestLogger testLogger(TestLogger::LogLevel::RESULT);
+        testLogger.logTestPredicate(testPredicate);
         break;
+    }
     case TestHarness::LogLevel::INFO:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
-        this->logTestPredicateApplicationMessages(testPredicate);
+    {
+        TestLogger testLogger(TestLogger::LogLevel::INFO);
+        testLogger.logTestPredicate(testPredicate);
         break;
+    }
     case TestHarness::LogLevel::DEBUG:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
-        this->logTestPredicateApplicationMessages(testPredicate);
-        cout << endl;
-        this->logTestPredicateApplicationState(testPredicate);
-        cout << endl;
-        cout << "Test Start Time: " << this->convertTimeToStr(testPredicate.getStartTime()) << endl;
-        cout << "Test End Time: " << this->convertTimeToStr(testPredicate.getEndTime()) << endl;
+    {
+        TestLogger testLogger(TestLogger::LogLevel::DEBUG);
+        testLogger.logTestPredicate(testPredicate);
         break;
     }
-}
-
-// Logs Test Predicate's Application Specific Messages
-void TestHarness::logTestPredicateApplicationMessages(TestPredicate testPredicate)
-{
-    cout << "Test Application Specific Messages: " << endl;
-
-    for (auto message : testPredicate.getApplicationSpecificMessages())
-    {
-        cout << "- " << message << endl;
     }
-
-    cout << endl;
-}
-
-// Logs Test Predicate's Application State
-void TestHarness::logTestPredicateApplicationState(TestPredicate testPredicate)
-{
-    cout << "Test Application State: " << endl;
-
-    for (auto stateElement : testPredicate.getApplicationState())
-    {
-        cout << "-> Variable Name: " << stateElement.first << ", Value: " << stateElement.second << endl;
-    }
-
-    cout << endl;
 }
