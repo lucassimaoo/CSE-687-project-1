@@ -36,10 +36,7 @@ private:
 	int passCount;
     bool execute(TestReturn(*)());
     void logTestPredicate(TestPredicate testPredicate);
-    void logTestPredicateApplicationMessages(TestPredicate testPredicate);
-    void logTestPredicateApplicationState(TestPredicate testPredicate);
     string getLogLevel();
-   	string convertTimeToStr(SYSTEMTIME st);
 };
 
 #endif 
