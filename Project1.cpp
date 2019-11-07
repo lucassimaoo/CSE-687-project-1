@@ -3,6 +3,7 @@
 #include <iostream>
 #include "TestHarness.h"
 #include "TestPredicate.h"
+//#include "./MsgPassingComm/Comm.h"
 
 int main()
 {
