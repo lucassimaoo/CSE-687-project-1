@@ -1,0 +1,10 @@
+﻿  pch.cpp
+  dllmain.cpp
+  Source.cpp
+C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Library3\Library3.h(15,43): warning C4190: 'ITest' has C-linkage specified, but returns UDT 'TestReturn' which is incompatible with C
+C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Library3\Library3.h(9): message : see declaration of 'TestReturn'
+C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Library3\Source.cpp(15,1): warning C4297: 'ITest': function assumed not to throw an exception but does
+  Generating Code...
+C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Library3\Source.cpp(15,1): message : __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+     Creating library C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Debug\Library3.lib and object C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Debug\Library3.exp
+  Library3.vcxproj -> C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library3\Debug\Library3.dll
