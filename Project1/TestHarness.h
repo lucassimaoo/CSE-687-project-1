@@ -26,12 +26,13 @@ struct TestReturn {
 class TestHarness {
 public:
     enum LogLevel { RESULT, INFO, DEBUG };
-    TestHarness(TestHarness::LogLevel logLevel, string file);
+    TestHarness(TestHarness::LogLevel logLevel);
     ~TestHarness();
-    void runUnitTests();
+    void runUnitTests(std::string file);
+	void server();
+	void serverSocket();
 private:
     LogLevel logLevel;
-	string file;
 	int failCount;
 	int passCount;
     bool execute(TestReturn(*)());

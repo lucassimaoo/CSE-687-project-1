@@ -321,7 +321,7 @@ void DemoClientServer()
   std::cout << "\n  press enter to quit DemoClientServer";
 }
 
-int main()
+int main2()
 {
   DemoClientServer();
   return 0;

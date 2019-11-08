@@ -6,8 +6,11 @@ Description: This file is the implementation for the Test Harness interface
 Date: 10/15/2019
 */
 
+#include "../Message/Message.h"
+#include "../Cpp11-BlockingQueue/Cpp11-BlockingQueue.h"
+#include "../Sockets/Sockets.h"
+#include "../MsgPassingComm/Comm.h"
 #include <ctime>
-
 #include <exception>
 #include <iostream>
 #include <sstream>
@@ -18,17 +21,19 @@ Date: 10/15/2019
 #include "TestLogger.h"
 #include "pugixml.hpp"
 
+using namespace MsgPassingCommunication;
+using namespace Sockets;
 using namespace pugi;
 using std::cout;
 using std::endl;
 using std::exception;
 
+
 typedef TestReturn(__cdecl* ITEST)();
 
-TestHarness::TestHarness(TestHarness::LogLevel logLevel, std::string file)
+TestHarness::TestHarness(TestHarness::LogLevel logLevel)
 {
     this->logLevel = logLevel;
-    this->file = file;
     this->passCount = 0;
     this->failCount = 0;
     cout << "Starting Test Harness..." << endl;
@@ -62,7 +67,7 @@ string TestHarness::getLogLevel()
 }
 
 // Begins Running all unit Test
-void TestHarness::runUnitTests()
+void TestHarness::runUnitTests(std::string file)
 {
     cout << "Running Unit Tests (With a Log Level of " << this->getLogLevel() << ")" << "\n\n" << endl;
 
@@ -184,4 +189,35 @@ void TestHarness::logTestPredicate(TestPredicate testPredicate)
         break;
     }
     }
+}
+
+void TestHarness::serverSocket() {
+	SocketSystem ss;
+
+	//starting the server
+	EndPoint serverEP("localhost", 9890);
+	Comm comm(serverEP, "serverComm");
+	comm.start();
+
+	Message msg;
+	while (true)
+	{
+		msg = comm.getMessage();
+		std::cout << "\n  " + comm.name() + " received message: " << msg.command() << endl;
+		
+		if (msg.command() == "stop")
+		{
+			break;
+		}
+		else 
+		{
+			runUnitTests(msg.command());
+		}
+	}
+	comm.stop();
+}
+
+void TestHarness::server() {
+	std::thread t1([=] {serverSocket();});
+	t1.detach();
 }

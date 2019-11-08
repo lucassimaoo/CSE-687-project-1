@@ -147,13 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Utilities\Utilities.h" />
-    <ClInclude Include="Cpp11-BlockingQueue.h" />
     <ClInclude Include="Logger.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Utilities\Utilities.cpp" />
-    <ClCompile Include="Cpp11-BlockingQueue.cpp" />
     <ClCompile Include="Logger.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
