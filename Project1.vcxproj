@@ -159,6 +159,7 @@
     <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cpp11-BlockingQueue.h" />
     <ClInclude Include="pugiconfig.hpp" />
     <ClInclude Include="pugixml.hpp" />
     <ClInclude Include="TestHarness.h" />
