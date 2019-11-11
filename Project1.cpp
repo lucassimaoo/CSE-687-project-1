@@ -7,22 +7,22 @@
 int main()
 {
     // Create Test Harness (RESULT Log Level) and supply unit tests
-    TestHarness testHarness(TestHarness::LogLevel::RESULT, "tests.xml");
+    TestHarness testHarness(TestHarness::LogLevel::RESULT, "tests.xml", 2);
 
     // Run Unit Tests
     testHarness.runUnitTests();
 
     // Create Test Harness (INFO Log Level) and supply unit tests
-    TestHarness testHarness2(TestHarness::LogLevel::INFO, "tests.xml");
+    //TestHarness testHarness2(TestHarness::LogLevel::INFO, "tests.xml", 2);
 
     // Run Unit Tests
-    testHarness2.runUnitTests();
+    //testHarness2.runUnitTests();
 
     // Create Test Harness (DEBUG Log Level) and supply unit tests
-    TestHarness testHarness3(TestHarness::LogLevel::DEBUG, "tests.xml");
+    //TestHarness testHarness3(TestHarness::LogLevel::DEBUG, "tests.xml", 2);
 
     // Run Unit Tests
-    testHarness3.runUnitTests();
+   // testHarness3.runUnitTests();
 }
 
 
