@@ -17,6 +17,7 @@ public:
     TestLogger(TestLogger::LogLevel logLevel);
     ~TestLogger();
     void logTestPredicate(TestPredicate testPredicate);
+	void log(std::string message);
 private:
     LogLevel logLevel;
     void logTestPredicateApplicationMessages(TestPredicate testPredicate);

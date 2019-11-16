@@ -166,6 +166,7 @@
     <ClInclude Include="TestHarness.h" />
     <ClInclude Include="TestLogger.h" />
     <ClInclude Include="TestPredicate.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="UnitTests.h" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@ Date: 10/15/2019
 #include "../Cpp11-BlockingQueue/Cpp11-BlockingQueue.h"
 #include "../Sockets/Sockets.h"
 #include "../MsgPassingComm/Comm.h"
+#include "ThreadPool.h"
 #include <ctime>
 #include <exception>
 #include <iostream>
@@ -24,19 +25,39 @@ Date: 10/15/2019
 using namespace MsgPassingCommunication;
 using namespace Sockets;
 using namespace pugi;
-using std::cout;
-using std::endl;
 using std::exception;
 
 
 typedef TestReturn(__cdecl* ITEST)();
+
+TestLogger testLogger = TestLogger(TestLogger::LogLevel::RESULT);
 
 TestHarness::TestHarness(TestHarness::LogLevel logLevel)
 {
     this->logLevel = logLevel;
     this->passCount = 0;
     this->failCount = 0;
-    cout << "Starting Test Harness..." << endl;
+
+	switch (this->logLevel)
+	{
+	case TestHarness::LogLevel::RESULT:
+	{
+		testLogger = TestLogger(TestLogger::LogLevel::RESULT);
+		break;
+	}
+	case TestHarness::LogLevel::INFO:
+	{
+		testLogger = TestLogger(TestLogger::LogLevel::INFO);
+		break;
+	}
+	case TestHarness::LogLevel::DEBUG:
+	{
+		testLogger = TestLogger(TestLogger::LogLevel::DEBUG);
+		break;
+	}
+	}
+
+	testLogger.log("Starting Test Harness...");
 }
 
 // Desconstuctor
@@ -69,7 +90,7 @@ string TestHarness::getLogLevel()
 // Begins Running all unit Test
 void TestHarness::runUnitTests(std::string file)
 {
-    cout << "Running Unit Tests (With a Log Level of " << this->getLogLevel() << ")" << "\n\n" << endl;
+	testLogger.log("Running Unit Tests (With a Log Level of " + this->getLogLevel() + ")");
 
     int testCounter = 1;
 	int failCounter = 0;
@@ -83,9 +104,9 @@ void TestHarness::runUnitTests(std::string file)
 
 		bool testResult = false;
 
-		cout << "Running Test " << std::to_string(testCounter) << "..." << endl;
-		cout << "--------------------------------------------" << endl;
-		cout << "Test Details: " << endl;
+		testLogger.log("Running Test " + std::to_string(testCounter) + "...");
+		testLogger.log("--------------------------------------------");
+		testLogger.log("Test Details: ");
 
 		//use this to load the DLL
 		std::string dll = child.attribute("library").value();
@@ -102,17 +123,17 @@ void TestHarness::runUnitTests(std::string file)
 				testResult = this->execute(itest);
 			}
 			else {
-				cout << "could not find ITest method in DLL " << dll << endl;
+				testLogger.log("could not find ITest method in DLL " + dll);
 			}
 			// Free the DLL module.
 			FreeLibrary(hinstLib);
 		}
 		else {
-			cout << "could not load DLL " << dll << endl;
+			testLogger.log("could not load DLL " + dll);
 		}
 
-        cout << "--------------------------------------------" << endl;
-        cout << "Test " << std::to_string(testCounter) << " Completed: Result -> " << (testResult == true ? "Pass" : "Fail") << endl << endl;
+		testLogger.log("--------------------------------------------");
+		testLogger.log("Test " + std::to_string(testCounter) + " Completed: Result -> " + (testResult == true ? "Pass" : "Fail"));
         testCounter++; // Update Test Counter
 
 		if (testResult == true) {
@@ -126,8 +147,8 @@ void TestHarness::runUnitTests(std::string file)
 	this->failCount = failCounter;
 	this->passCount = passCounter;
 
-    cout << "FINISHED RUNNING ALL UNIT TESTS..." << endl;
-	cout << "Pass: " << std::to_string(passCount) << " Fail: " << std::to_string(failCount) << "\n\n" << endl;
+	testLogger.log("FINISHED RUNNING ALL UNIT TESTS...");
+	testLogger.log("Pass: " + std::to_string(passCount) + " Fail: " + std::to_string(failCount) + "\n\n");
 }
 
 // Runs Unit Tests and Return Test Result
@@ -159,7 +180,8 @@ bool TestHarness::execute(TestReturn(*unitTest)()) {
     }
     catch (exception & e)
     {
-        cout << "Error Occured while running test: " << e.what() << endl;
+		std::string s = e.what();
+		testLogger.log("Error Occured while running test: " + s);
     }
 
     return testResult;
@@ -203,15 +225,24 @@ void TestHarness::serverSocket() {
 	while (true)
 	{
 		msg = comm.getMessage();
-		std::cout << "\n  " + comm.name() + " received message: " << msg.command() << endl;
+		testLogger.log( comm.name() + " received message: " + msg.command());
 		
 		if (msg.command() == "stop")
 		{
+			// waiting on thread pool threads to finish
+			ThreadPool<2>::CallObj exit = []() ->bool { return false; };
+			trpl.workItem(exit);
+			trpl.wait();
 			break;
 		}
 		else 
 		{
-			runUnitTests(msg.command());
+			ThreadPool<2>::CallObj co = [this, msg=msg.command()]() ->bool {
+				runUnitTests(msg);
+				return true;
+			};
+
+			trpl.workItem(co);
 		}
 	}
 	comm.stop();

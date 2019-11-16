@@ -12,9 +12,12 @@ Date: 10/29/2019
 #include <string>
 #include "TestLogger.h"
 #include "TestPredicate.h"
+#include <mutex>
 
 using std::cout;
 using std::endl;
+
+static std::mutex mu;
 
 TestLogger::TestLogger(TestLogger::LogLevel logLevel)
 {
@@ -25,27 +28,6 @@ TestLogger::TestLogger(TestLogger::LogLevel logLevel)
 TestLogger::~TestLogger()
 {
 
-}
-
-// Get Log Level as a string
-string TestLogger::getLogLevel()
-{
-    string logLevel = "Unknown";
-
-    switch (this->logLevel)
-    {
-    case TestLogger::LogLevel::RESULT:
-        logLevel = "RESULT";
-        break;
-    case TestLogger::LogLevel::INFO:
-        logLevel = "INFO";
-        break;
-    case TestLogger::LogLevel::DEBUG:
-        logLevel = "DEBUG";
-        break;
-    }
-
-    return logLevel;
 }
 
 // Get the string version of the time, test
@@ -66,6 +48,7 @@ string TestLogger::convertTimeToStr(SYSTEMTIME st) {
 // Logs Test Predicate Information, based on logger's log level
 void TestLogger::logTestPredicate(TestPredicate testPredicate)
 {
+	mu.lock();
     switch (this->logLevel)
     {
     case TestLogger::LogLevel::RESULT:
@@ -85,6 +68,7 @@ void TestLogger::logTestPredicate(TestPredicate testPredicate)
         cout << "Test End Time: " << this->convertTimeToStr(testPredicate.getEndTime()) << endl;
         break;
     }
+	mu.unlock();
 }
 
 // Logs Test Predicate's Application Specific Messages
@@ -111,4 +95,10 @@ void TestLogger::logTestPredicateApplicationState(TestPredicate testPredicate)
     }
 
     cout << endl;
+}
+
+void TestLogger::log(std::string message) {
+	mu.lock();
+	cout << message << std::endl;
+	mu.unlock();
 }

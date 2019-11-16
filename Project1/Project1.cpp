@@ -50,5 +50,9 @@ int main()
 	stop.command("stop");
 	comm.postMessage(stop);
 
+	::Sleep(2000);
+
+	comm.stop();
+
 	return 0;
 }

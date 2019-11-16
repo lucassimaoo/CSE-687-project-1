@@ -11,6 +11,7 @@ Date: 10/15/2019
 #include <string>
 #include "TestPredicate.h"
 #include <vector>
+#include "ThreadPool.h"
 
 using std::vector;
 
@@ -38,6 +39,7 @@ private:
     bool execute(TestReturn(*)());
     void logTestPredicate(TestPredicate testPredicate);
     string getLogLevel();
+	ThreadPool<2> trpl;
 };
 
 #endif 
