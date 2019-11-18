@@ -6,8 +6,12 @@ Description: This file is the implementation for the Test Harness interface
 Date: 10/15/2019
 */
 
-#include <ctime>
+#include "Message/Message.h"
+// #include "Cpp11-BlockingQueue/Cpp11-BlockingQueue.h"
+#include "MsgPassingComm/Comm.h"
+// #include "Sockets/Sockets.h"
 
+#include <ctime>
 #include <exception>
 #include <iostream>
 #include <sstream>
@@ -17,15 +21,13 @@ Date: 10/15/2019
 #include "TestHarness.h"
 #include "TestLogger.h"
 #include "pugixml.hpp"
-// #include "MsgPassingComm/Comm.h"
-// #include "Sockets/Sockets.h"
 
 using namespace pugi;
 using std::cout;
 using std::endl;
 using std::exception;
-// using namespace MsgPassingCommunication;
-// using namespace Sockets;
+using namespace MsgPassingCommunication;
+using namespace Sockets;
 
 typedef TestReturn(__cdecl* ITEST)();
 
@@ -192,7 +194,9 @@ void TestHarness::logTestPredicate(TestPredicate testPredicate)
 
 // Start Processing Network Messages
 void TestHarness::startProcessingNetworkMessages() {
-    /*
+    // Start Socket System
+    SocketSystem ss;
+
     // Set Host and Port for listening
     EndPoint endPoint("localhost", 9890);
 
@@ -216,20 +220,18 @@ void TestHarness::startProcessingNetworkMessages() {
         }
         else
         {
-            testLogger.logMessage(communicationPoint.name() + " recevied message: " + message.command());
+            testLogger.logMessage("\n" + communicationPoint.name() + " recevied message: " + message.command());
         }
     }
-    */
+
+    communicationPoint.stop();
 }
 
 // Starts Test Harness Server
 void TestHarness::startServer() {
-    /*
     // Create Thread
     std::thread thread([=] {startProcessingNetworkMessages();});
 
     //Start Thread
-    thread.detach();
-    */
-    
+    thread.detach();    
 }

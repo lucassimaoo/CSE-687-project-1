@@ -493,7 +493,7 @@ void DemoClientServer()
 }
 
 Cosmetic cosmetic;
-
+/*
 int main()
 {
   SUtils::Title("Demo of Message-Passing Communication");
@@ -515,4 +515,5 @@ int main()
 
   return 0;
 }
+*/
 #endif

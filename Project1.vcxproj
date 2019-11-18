@@ -167,6 +167,18 @@
     <ClInclude Include="UnitTests.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Cpp11-BlockingQueue\Cpp11-BlockingQueue.vcxproj">
+      <Project>{38a1d03d-7747-4f79-9539-358f1d1d8dd7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Library1\Library1\Library1.vcxproj">
+      <Project>{5e740a31-e2a0-4367-b3a7-58f5079631aa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Library2\Library2\Library2.vcxproj">
+      <Project>{37b9fb25-fa8c-4e74-9795-3155b62d673c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Library3\Library3\Library3.vcxproj">
+      <Project>{d6762145-fd8a-4429-a7aa-fff8b923e271}</Project>
+    </ProjectReference>
     <ProjectReference Include="Message\Message.vcxproj">
       <Project>{4133d528-ab6d-4ccd-af37-67536f36154c}</Project>
     </ProjectReference>
