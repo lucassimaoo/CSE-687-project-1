@@ -17,11 +17,15 @@ Date: 10/15/2019
 #include "TestHarness.h"
 #include "TestLogger.h"
 #include "pugixml.hpp"
+// #include "MsgPassingComm/Comm.h"
+// #include "Sockets/Sockets.h"
 
 using namespace pugi;
 using std::cout;
 using std::endl;
 using std::exception;
+// using namespace MsgPassingCommunication;
+// using namespace Sockets;
 
 typedef TestReturn(__cdecl* ITEST)();
 
@@ -184,4 +188,48 @@ void TestHarness::logTestPredicate(TestPredicate testPredicate)
         break;
     }
     }
+}
+
+// Start Processing Network Messages
+void TestHarness::startProcessingNetworkMessages() {
+    /*
+    // Set Host and Port for listening
+    EndPoint endPoint("localhost", 9890);
+
+    // Bind to Endpoint
+    Comm communicationPoint(endPoint, "TestHarnessCommunicationPoint");
+
+    // Start listening for Messages on the communication point
+    communicationPoint.start();
+
+    // Create Logger
+    TestLogger testLogger(TestLogger::LogLevel::INFO);
+
+    Message message;
+
+    while (true)
+    {
+        message = communicationPoint.getMessage();
+        if (message.command() == "quit")
+        {
+            communicationPoint.stop();
+        }
+        else
+        {
+            testLogger.logMessage(communicationPoint.name() + " recevied message: " + message.command());
+        }
+    }
+    */
+}
+
+// Starts Test Harness Server
+void TestHarness::startServer() {
+    /*
+    // Create Thread
+    std::thread thread([=] {startProcessingNetworkMessages();});
+
+    //Start Thread
+    thread.detach();
+    */
+    
 }

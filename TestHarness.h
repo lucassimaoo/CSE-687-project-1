@@ -29,6 +29,7 @@ public:
     TestHarness(TestHarness::LogLevel logLevel, string file);
     ~TestHarness();
     void runUnitTests();
+    void startServer();
 private:
     LogLevel logLevel;
 	string file;
@@ -37,6 +38,7 @@ private:
     bool execute(TestReturn(*)());
     void logTestPredicate(TestPredicate testPredicate);
     string getLogLevel();
+    void startProcessingNetworkMessages();
 };
 
 #endif 

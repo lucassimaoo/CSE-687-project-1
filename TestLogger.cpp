@@ -112,3 +112,9 @@ void TestLogger::logTestPredicateApplicationState(TestPredicate testPredicate)
 
     cout << endl;
 }
+
+// Logs Message
+void TestLogger::logMessage(string message)
+{
+    cout << message << endl;
+}

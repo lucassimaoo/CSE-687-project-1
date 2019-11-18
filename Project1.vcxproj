@@ -166,6 +166,17 @@
     <ClInclude Include="TestPredicate.h" />
     <ClInclude Include="UnitTests.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Message\Message.vcxproj">
+      <Project>{4133d528-ab6d-4ccd-af37-67536f36154c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="MsgPassingComm\MsgPassingComm.vcxproj">
+      <Project>{6e58e051-cc07-4d7f-92a4-06a117a79ca7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Sockets\Sockets.vcxproj">
+      <Project>{ca3129b8-1bf4-44c9-b116-53ec72d0bccb}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
