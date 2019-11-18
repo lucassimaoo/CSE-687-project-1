@@ -51,8 +51,6 @@ string TestLogger::getLogLevel()
 // Get the string version of the time, test
 string TestLogger::convertTimeToStr(SYSTEMTIME st) {
 
-    //GetLocalTime(&st);
-
     std::ostringstream strStream;
 
     strStream << st.wDay << "/" << st.wMonth << "/" << st.wYear << "  " << st.wHour << ":" << std::setfill('0') << std::setw(2) << std::right;
