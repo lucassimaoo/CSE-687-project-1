@@ -39,19 +39,19 @@ int main()
         ::Sleep(2000);
 
         // Run Unit Tests
-        testHarness.runUnitTests();
+        testHarness.runUnitTests("tests.xml");
 
         // Create Test Harness (INFO Log Level) and supply unit tests
         TestHarness testHarness2(TestHarness::LogLevel::INFO, "tests.xml");
 
         // Run Unit Tests
-        testHarness2.runUnitTests();
+        testHarness2.runUnitTests("tests.xml");
 
         // Create Test Harness (DEBUG Log Level) and supply unit tests
         TestHarness testHarness3(TestHarness::LogLevel::DEBUG, "tests.xml");
 
         // Run Unit Tests
-        testHarness3.runUnitTests();
+        testHarness3.runUnitTests("tests.xml");
 
         Message stop;
         stop.name("quit");
@@ -64,7 +64,7 @@ int main()
     }
     catch (exception & e)
     {
-        cout << "Error Occured while running test: " << e.what() << endl;
+        cout << "Error Occured while running tests: " << e.what() << endl;
     }
 }
 

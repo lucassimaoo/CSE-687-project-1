@@ -28,7 +28,7 @@ public:
     enum LogLevel { RESULT, INFO, DEBUG };
     TestHarness(TestHarness::LogLevel logLevel, string file);
     ~TestHarness();
-    void runUnitTests();
+    void runUnitTests(string fileName);
     void startServer();
 private:
     LogLevel logLevel;

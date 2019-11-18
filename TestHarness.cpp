@@ -68,7 +68,7 @@ string TestHarness::getLogLevel()
 }
 
 // Begins Running all unit Test
-void TestHarness::runUnitTests()
+void TestHarness::runUnitTests(string fileName)
 {
     cout << "Running Unit Tests (With a Log Level of " << this->getLogLevel() << ")" << "\n\n" << endl;
 
@@ -77,7 +77,7 @@ void TestHarness::runUnitTests()
 	int passCounter = 0;
 
 	pugi::xml_document doc;
-	doc.load_file(file.c_str());
+	doc.load_file(fileName.c_str());
 	
 	for (pugi::xml_node child : doc.child("tests").children())
 	{
@@ -220,7 +220,9 @@ void TestHarness::startProcessingNetworkMessages() {
         }
         else
         {
-            testLogger.logMessage("\n" + communicationPoint.name() + " recevied message: " + message.command());
+            string command = message.command();
+            testLogger.logMessage("\n" + communicationPoint.name() + " recevied message: " + command);
+            this->runUnitTests(command);
         }
     }
 
