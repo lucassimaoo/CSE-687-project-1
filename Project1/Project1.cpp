@@ -50,5 +50,9 @@ int main()
 	stop.command("stop");
 	comm.postMessage(stop);
 
+	while (testHarness.stillGoing());
+	testHarness.printStats();
+	comm.stop();
+
 	return 0;
 }
