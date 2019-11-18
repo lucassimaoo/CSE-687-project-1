@@ -10,8 +10,11 @@ Date: 10/29/2019
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <mutex>
 #include "TestLogger.h"
 #include "TestPredicate.h"
+
+extern std::mutex iolock;
 
 using std::cout;
 using std::endl;
@@ -64,26 +67,35 @@ string TestLogger::convertTimeToStr(SYSTEMTIME st) {
 // Logs Test Predicate Information, based on logger's log level
 void TestLogger::logTestPredicate(TestPredicate testPredicate)
 {
-    switch (this->logLevel)
-    {
-    case TestLogger::LogLevel::RESULT:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl;
-        break;
-    case TestLogger::LogLevel::INFO:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
-        this->logTestPredicateApplicationMessages(testPredicate);
-        break;
-    case TestLogger::LogLevel::DEBUG:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
-        this->logTestPredicateApplicationMessages(testPredicate);
-        cout << endl;
-        this->logTestPredicateApplicationState(testPredicate);
-        cout << endl;
-        cout << "Test Start Time: " << this->convertTimeToStr(testPredicate.getStartTime()) << endl;
-        cout << "Test End Time: " << this->convertTimeToStr(testPredicate.getEndTime()) << endl;
-        break;
-    }
-}
+	switch (this->logLevel)
+	{
+	case TestLogger::LogLevel::RESULT:
+	{
+		std::lock_guard<std::mutex> l(iolock);
+		cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl;
+	}
+	break;
+	case TestLogger::LogLevel::INFO:
+	{
+		std::lock_guard<std::mutex> l(iolock);
+		cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
+		this->logTestPredicateApplicationMessages(testPredicate);
+	}
+	break;
+	case TestLogger::LogLevel::DEBUG:
+	{
+		std::lock_guard<std::mutex> l(iolock);
+		cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
+		this->logTestPredicateApplicationMessages(testPredicate);
+		cout << endl;
+		this->logTestPredicateApplicationState(testPredicate);
+		cout << endl;
+		cout << "Test Start Time: " << this->convertTimeToStr(testPredicate.getStartTime()) << endl;
+		cout << "Test End Time: " << this->convertTimeToStr(testPredicate.getEndTime()) << endl;
+	}
+    break;
+	}
+ }
 
 // Logs Test Predicate's Application Specific Messages
 void TestLogger::logTestPredicateApplicationMessages(TestPredicate testPredicate)

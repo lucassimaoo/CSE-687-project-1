@@ -6,6 +6,8 @@
 #include "TestHarness.h"
 #include "TestPredicate.h"
 
+std::mutex iolock;
+
 using namespace MsgPassingCommunication;
 
 int main()

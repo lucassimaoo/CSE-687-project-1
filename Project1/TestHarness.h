@@ -53,7 +53,7 @@ private:
 	BlockingQueue<int> readyQueue;
 	BlockingQueue<string> testQueue;
 	std::mutex m_counts;
-	std::mutex iolock;
+//	std::mutex iolock;
 };
 
 #endif 

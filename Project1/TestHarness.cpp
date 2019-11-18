@@ -21,6 +21,8 @@ Date: 10/15/2019
 #include "TestLogger.h"
 #include "pugixml.hpp"
 
+extern std::mutex iolock;
+
 using namespace MsgPassingCommunication;
 using namespace Sockets;
 using namespace pugi;
@@ -120,9 +122,9 @@ void TestHarness::runUnitTests(int myThread)
 			{
 				std::lock_guard<std::mutex> l(iolock);
 				cout << "Running Test " << ++testCount << endl;
-				cout << "--------------------------------------------" << endl;
-				cout << "Test Details: " << endl;
-			}
+				//cout << "--------------------------------------------" << endl;
+				//cout << "Test Details: " << endl;
+			} 
 
 			//use this to load the DLL
 			std::string dll = child.attribute("library").value();
@@ -195,7 +197,8 @@ bool TestHarness::execute(TestReturn(*unitTest)()) {
     }
     catch (exception & e)
     {
-        cout << "Error Occured while running test: " << e.what() << endl;
+		std::lock_guard<std::mutex> l(iolock);
+		cout << "Error Occured while running test: " << e.what() << endl;
     }
 
     return testResult;
