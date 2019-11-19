@@ -12,6 +12,7 @@ Date: 10/15/2019
 #include "TestPredicate.h"
 #include <vector>
 #include "ThreadPool.h"
+#include <atomic>
 
 using std::vector;
 
@@ -30,13 +31,14 @@ public:
     TestHarness(TestHarness::LogLevel logLevel);
     ~TestHarness();
     void runUnitTests(std::string file);
-	void server();
+	std::thread server();
 	void serverSocket();
 private:
     LogLevel logLevel;
-	int failCount;
-	int passCount;
-    bool execute(TestReturn(*)());
+	std::atomic<int> failCount = 0;
+	std::atomic<int>  passCount = 0;
+	std::atomic<int>  testCounter = 1;
+    bool execute(TestReturn(*)(), int testId);
     void logTestPredicate(TestPredicate testPredicate);
     string getLogLevel();
 	ThreadPool<2> trpl;

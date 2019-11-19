@@ -19,10 +19,11 @@ using std::string;
 using std::time_t;
 using std::vector;
 
-TestPredicate::TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState) {
+TestPredicate::TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState, int testId) {
     this->result = result;
     this->applicationSpecificMessages = applicationSpecificMessages;
     this->applicationState = applicationState;
+	this->testId = testId;
 }
 
 // Get the Test Result
@@ -63,4 +64,8 @@ void TestPredicate::setStartTime(SYSTEMTIME startTime)
 void TestPredicate::setEndTime(SYSTEMTIME endTime)
 {
     this->endTime = endTime;
+}
+
+int TestPredicate::getTestId() {
+	return this->testId;
 }

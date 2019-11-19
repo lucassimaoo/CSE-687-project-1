@@ -33,8 +33,6 @@ TestLogger::~TestLogger()
 // Get the string version of the time, test
 string TestLogger::convertTimeToStr(SYSTEMTIME st) {
 
-    GetLocalTime(&st);
-
     std::ostringstream strStream;
 
     strStream << st.wDay << "/" << st.wMonth << "/" << st.wYear << "  " << st.wHour << ":" << std::setfill('0') << std::setw(2) << std::right;
@@ -52,14 +50,14 @@ void TestLogger::logTestPredicate(TestPredicate testPredicate)
     switch (this->logLevel)
     {
     case TestLogger::LogLevel::RESULT:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl;
+        cout << "Test " << testPredicate.getTestId() << " Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl;
         break;
     case TestLogger::LogLevel::INFO:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
+        cout << "Test " << testPredicate.getTestId() << " Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
         this->logTestPredicateApplicationMessages(testPredicate);
         break;
     case TestLogger::LogLevel::DEBUG:
-        cout << "Test Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
+        cout << "Test " << testPredicate.getTestId() << " Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
         this->logTestPredicateApplicationMessages(testPredicate);
         cout << endl;
         this->logTestPredicateApplicationState(testPredicate);

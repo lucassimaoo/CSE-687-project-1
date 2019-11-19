@@ -63,7 +63,6 @@ TestHarness::TestHarness(TestHarness::LogLevel logLevel)
 // Desconstuctor
 TestHarness::~TestHarness()
 {
-    //this->unitTests.clear();
 }
 
 // Get Log Level as a string
@@ -92,10 +91,6 @@ void TestHarness::runUnitTests(std::string file)
 {
 	testLogger.log("Running Unit Tests (With a Log Level of " + this->getLogLevel() + ")");
 
-    int testCounter = 1;
-	int failCounter = 0;
-	int passCounter = 0;
-
 	pugi::xml_document doc;
 	doc.load_file(file.c_str());
 	
@@ -104,9 +99,10 @@ void TestHarness::runUnitTests(std::string file)
 
 		bool testResult = false;
 
-		testLogger.log("Running Test " + std::to_string(testCounter) + "...");
+		int testId = testCounter++;
+
 		testLogger.log("--------------------------------------------");
-		testLogger.log("Test Details: ");
+		testLogger.log("Running Test " + std::to_string(testId) + "...");
 
 		//use this to load the DLL
 		std::string dll = child.attribute("library").value();
@@ -120,7 +116,7 @@ void TestHarness::runUnitTests(std::string file)
 			// If the function address is valid, call the function.
 			if (NULL != itest)
 			{
-				testResult = this->execute(itest);
+				testResult = this->execute(itest, testId);
 			}
 			else {
 				testLogger.log("could not find ITest method in DLL " + dll);
@@ -133,26 +129,22 @@ void TestHarness::runUnitTests(std::string file)
 		}
 
 		testLogger.log("--------------------------------------------");
-		testLogger.log("Test " + std::to_string(testCounter) + " Completed: Result -> " + (testResult == true ? "Pass" : "Fail"));
-        testCounter++; // Update Test Counter
+		testLogger.log("Test " + std::to_string(testId) + " Completed: Result -> " + (testResult == true ? "Pass" : "Fail"));
 
 		if (testResult == true) {
-			passCounter++; // Update passed test counter
+			passCount++; // Update passed test counter
 		}
 		else {
-			failCounter++; // Update failed test counter
+			failCount++; // Update failed test counter
 		}
     }
-
-	this->failCount = failCounter;
-	this->passCount = passCounter;
 
 	testLogger.log("FINISHED RUNNING ALL UNIT TESTS...");
 	testLogger.log("Pass: " + std::to_string(passCount) + " Fail: " + std::to_string(failCount) + "\n\n");
 }
 
 // Runs Unit Tests and Return Test Result
-bool TestHarness::execute(TestReturn(*unitTest)()) {
+bool TestHarness::execute(TestReturn(*unitTest)(), int testId) {
     bool testResult = false;
 
     try
@@ -164,7 +156,7 @@ bool TestHarness::execute(TestReturn(*unitTest)()) {
 
         // Run Unit Test
         TestReturn testReturn = unitTest();
-		TestPredicate testPredicate(testReturn.result, testReturn.applicationSpecificMessages, testReturn.applicationState);
+		TestPredicate testPredicate(testReturn.result, testReturn.applicationSpecificMessages, testReturn.applicationState, testId);
 
 
         // Capture Test End Time
@@ -248,7 +240,7 @@ void TestHarness::serverSocket() {
 	comm.stop();
 }
 
-void TestHarness::server() {
+std::thread TestHarness::server() {
 	std::thread t1([=] {serverSocket();});
-	t1.detach();
+	return t1;
 }

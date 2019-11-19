@@ -24,7 +24,7 @@ using std::vector;
 
 class TestPredicate {
 public:
-    TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState);
+    TestPredicate(bool result, vector<string> applicationSpecificMessages, map<string, string> applicationState, int testId);
     bool getResult();
     vector<string> getApplicationSpecificMessages();
     map<string, string> getApplicationState();
@@ -32,12 +32,14 @@ public:
     SYSTEMTIME getEndTime();
     void setStartTime(SYSTEMTIME startTime);
     void setEndTime(SYSTEMTIME endTime);
+	int getTestId();
 private:
     bool result; // Holds Test Result
     vector<string> applicationSpecificMessages; // Holds Application Specific Messages
     map <string, string> applicationState; // Holds Object State, during test execution
     SYSTEMTIME startTime; // Holds Test Start Time
 	SYSTEMTIME endTime;   // Holds Test End Time
+	int testId;
 };
 
 #endif

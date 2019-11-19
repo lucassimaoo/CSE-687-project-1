@@ -14,7 +14,7 @@ int main()
     // Create Test Harness (RESULT Log Level) and supply unit tests
     TestHarness testHarness(TestHarness::LogLevel::DEBUG);
 
-	testHarness.server();
+	std::thread t = testHarness.server();
 
 	// leaving some time for the socket to start
 	::Sleep(1000);
@@ -50,9 +50,9 @@ int main()
 	stop.command("stop");
 	comm.postMessage(stop);
 
-	::Sleep(2000);
-
 	comm.stop();
+
+	t.join();
 
 	return 0;
 }

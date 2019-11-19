@@ -158,7 +158,6 @@
     <ClCompile Include="TestHarness.cpp" />
     <ClCompile Include="TestLogger.cpp" />
     <ClCompile Include="TestPredicate.cpp" />
-    <ClCompile Include="UnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pugiconfig.hpp" />
