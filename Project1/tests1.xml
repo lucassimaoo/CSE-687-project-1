@@ -1,0 +1,5 @@
+<tests>
+    <driver library='..\\Library1\\Debug\\Library1.dll'/>
+    <driver library='..\\Library1\\Debug\\Library1.dll'/>
+    <driver library='..\\Library1\\Debug\\Library1.dll'/>
+</tests>
