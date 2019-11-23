@@ -22,5 +22,7 @@ TestReturn ITest() {
 	// Run Test and Capture Test Results
 	bool result = ((num1 + num2) > num3);
 
+	::Sleep(5000);
+
 	return { result, applicationSpecificMessages, applicationState};
 }

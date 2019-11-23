@@ -1,0 +1,8 @@
+﻿  pch.cpp
+  dllmain.cpp
+  Source.cpp
+C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library2\Library2\Library2.h(15,43): warning C4190: 'ITest' has C-linkage specified, but returns UDT 'TestReturn' which is incompatible with C
+  Generating Code...
+C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library2\Library2\Library2.h(9): message : see declaration of 'TestReturn'
+     Creating library C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library2\Debug\Library2.lib and object C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library2\Debug\Library2.exp
+  Library2.vcxproj -> C:\Users\lucas\Documents\GitHub\CSE-687-project-1\Library2\Debug\Library2.dll
