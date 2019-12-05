@@ -210,7 +210,9 @@ void TestHarness::serverSocket() {
 
 	//starting the server
 	EndPoint serverEP("localhost", 9890);
+	EndPoint clientEP("localhost", 9891);
 	Comm comm(serverEP, "serverComm");
+	Comm comm2(clientEP, "clientComm");
 	comm.start();
 
 	Message msg;
@@ -237,7 +239,16 @@ void TestHarness::serverSocket() {
 			trpl.workItem(co);
 		}
 	}
+	comm2.start();
+	Message msg1;
+	msg1.to(clientEP);
+	msg1.command("Finished");
+	msg1.name("server #1 : msg # 1");
+	std::cout << "\n  " + comm.name() + " posting:  " << msg1.name() << std::endl;
+	comm2.postMessage(msg1);
+	::Sleep(1000);
 	comm.stop();
+	comm2.stop();
 }
 
 std::thread TestHarness::server() {

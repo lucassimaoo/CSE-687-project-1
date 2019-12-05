@@ -50,9 +50,13 @@ int main()
 	stop.command("stop");
 	comm.postMessage(stop);
 
-	comm.stop();
-
 	t.join();
 
+	//std::cout << "Looking for message\n";
+	Message msgEnd;
+	msgEnd = comm.getMessage();
+	std::cout << "\n  " + comm.name() + " received message: " << msgEnd.command() << std::endl;
+	//std::cout << "stopping comm\n";
+	comm.stop();
 	return 0;
 }
