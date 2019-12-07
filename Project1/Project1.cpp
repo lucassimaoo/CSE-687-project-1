@@ -45,7 +45,7 @@ int main()
 	msg3.to(serverEP);
 	msg3.command("tests3.xml");
 	msg3.name("client #1 : msg # 3");
-	std::cout << "\n  " + comm.name() + " posting:  " << msg3.name();
+	std::cout << "\n  " + comm.name() + " posting:  " << msg3.name() << std::endl;
 	comm.postMessage(msg3);
 
 	Message stop;
@@ -63,7 +63,9 @@ int main()
 
 void getResults()
 {
-	Comm comm(EndPoint("localhost", 9881), "clientComm");
+	SocketSystem ss;
+
+	Comm comm(EndPoint("localhost", 9881), "client2Comm");
 	comm.start();
 	
 	std::cout << "getResults started\n";
@@ -71,8 +73,7 @@ void getResults()
 	while (true)
 	{
 		msg = comm.getMessage();
-		std::cout << " getResults received message: " + msg.command() << std::endl;
-
+		
 		if (msg.command() == "stop")
 		{
 			std::cout << "Received stop\n";
@@ -83,5 +84,6 @@ void getResults()
 			std::cout << msg.command() << std::endl;
 		}
 	}
+	
 	comm.stop();
 }
