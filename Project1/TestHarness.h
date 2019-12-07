@@ -33,15 +33,17 @@ public:
     void runUnitTests(std::string file);
 	std::thread server();
 	void serverSocket();
+	void resultSocket();
 private:
     LogLevel logLevel;
 	std::atomic<int> failCount = 0;
 	std::atomic<int>  passCount = 0;
 	std::atomic<int>  testCounter = 1;
     bool execute(TestReturn(*)(), int testId);
-    void logTestPredicate(TestPredicate testPredicate);
+    string logTestPredicate(TestPredicate testPredicate);
     string getLogLevel();
 	ThreadPool<2> trpl;
+	BlockingQueue<string> resultQueue;
 };
 
 #endif 

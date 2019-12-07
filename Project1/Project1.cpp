@@ -7,20 +7,24 @@
 #include "TestPredicate.h"
 
 using namespace MsgPassingCommunication;
+void getResults();
 
 int main()
 {
 
     // Create Test Harness (RESULT Log Level) and supply unit tests
-    TestHarness testHarness(TestHarness::LogLevel::DEBUG);
+    //TestHarness testHarness(TestHarness::LogLevel::DEBUG);
+	TestHarness testHarness(TestHarness::LogLevel::RESULT);
 
 	std::thread t = testHarness.server();
+	std::thread t2(getResults);
 
 	// leaving some time for the socket to start
 	::Sleep(1000);
 
 	Comm comm(EndPoint("localhost", 9891), "client1Comm");
 	comm.start();
+	
 	EndPoint serverEP("localhost", 9890);
 
 	Message msg1;
@@ -51,12 +55,33 @@ int main()
 	comm.postMessage(stop);
 
 	t.join();
+	t2.join();
 
-	//std::cout << "Looking for message\n";
-	Message msgEnd;
-	msgEnd = comm.getMessage();
-	std::cout << "\n  " + comm.name() + " received message: " << msgEnd.command() << std::endl;
-	//std::cout << "stopping comm\n";
 	comm.stop();
 	return 0;
+}
+
+void getResults()
+{
+	Comm comm(EndPoint("localhost", 9881), "clientComm");
+	comm.start();
+	
+	std::cout << "getResults started\n";
+	Message msg;
+	while (true)
+	{
+		msg = comm.getMessage();
+		std::cout << " getResults received message: " + msg.command() << std::endl;
+
+		if (msg.command() == "stop")
+		{
+			std::cout << "Received stop\n";
+			break;
+		}
+		else
+		{
+			std::cout << msg.command() << std::endl;
+		}
+	}
+	comm.stop();
 }
