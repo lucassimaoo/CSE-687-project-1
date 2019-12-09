@@ -59,22 +59,22 @@
                             </Grid.ColumnDefinitions>
                             <GroupBox Grid.Row="0" Grid.Column="0" Header="Test Server Host" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBlock HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Grid.Row="1" Grid.Column="0" Header="Test Server Port" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBlock HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Grid.Row="2" Grid.Column="0" Header="Message Listening Host" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBlock HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Grid.Row="3" Grid.Column="0" Header="Message Listening Port" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBlock HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <Button Grid.Row="4" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold" Height="30">Save</Button>
@@ -106,10 +106,10 @@
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" Margin="10,10,10,10">
-                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Padding="10,10,10,10">
+                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Padding="10,10,10,10" IsEnabled="False">
                                 This tool is named Test Harness. It allows users to upload test file(s), in xml format, 
                                 to be processed by a remote test server. Upon test completion, the remote test server will
-                                communicate back results and they will be displayed in the "Test Utility" tab.
+                                communicate back results and they will be displayed in the "Rea-Time Messages" view.
                             </TextBlock>
                         </GroupBox>
                     </Grid>
