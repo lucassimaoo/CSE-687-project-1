@@ -92,7 +92,7 @@ void TestHarness::runUnitTests(std::string file)
 	testLogger.log("Running Unit Tests (With a Log Level of " + this->getLogLevel() + ")");
 
 	pugi::xml_document doc;
-	doc.load_file(file.c_str());
+	doc.load_string(file.c_str());
 	
 	for (pugi::xml_node child : doc.child("tests").children())
 	{

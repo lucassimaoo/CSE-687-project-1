@@ -5,11 +5,38 @@
 #include <iostream>
 #include "TestHarness.h"
 #include "TestPredicate.h"
+#include "pugixml.hpp"
 
 using namespace MsgPassingCommunication;
+using namespace pugi;
+
+struct xml_string_writer : pugi::xml_writer
+{
+	std::string result;
+
+	virtual void write(const void* data, size_t size)
+	{
+		result.append(static_cast<const char*>(data), size);
+	}
+};
 
 int main()
 {
+
+	std::vector<std::string> dlls;
+	dlls.push_back("..\\Library1\\Debug\\Library1.dll");
+	dlls.push_back("..\\Library2\\Debug\\Library2.dll");
+	dlls.push_back("..\\Library3\\Debug\\Library3.dll");
+
+	pugi::xml_document doc;
+	pugi::xml_node tests = doc.append_child("tests");
+	xml_string_writer writer;
+
+	for (const auto& dll : dlls) {
+		tests.append_child("driver").append_attribute("library").set_value(dll.c_str());
+	}
+
+	doc.save(writer, nullptr, pugi::format_raw);
 
     // Create Test Harness (RESULT Log Level) and supply unit tests
     TestHarness testHarness(TestHarness::LogLevel::DEBUG);
@@ -25,12 +52,12 @@ int main()
 
 	Message msg1;
 	msg1.to(serverEP);
-	msg1.command("tests1.xml");
+	msg1.command(writer.result);
 	msg1.name("client #1 : msg # 1");
 	std::cout << "\n  " + comm.name() + " posting:  " << msg1.name();
 	comm.postMessage(msg1);
 
-	Message msg2;
+	/*Message msg2;
 	msg2.to(serverEP);
 	msg2.command("tests2.xml");
 	msg2.name("client #1 : msg # 2");
@@ -42,7 +69,7 @@ int main()
 	msg3.command("tests3.xml");
 	msg3.name("client #1 : msg # 3");
 	std::cout << "\n  " + comm.name() + " posting:  " << msg3.name();
-	comm.postMessage(msg3);
+	comm.postMessage(msg3);*/
 
 	Message stop;
 	stop.name("stop");
