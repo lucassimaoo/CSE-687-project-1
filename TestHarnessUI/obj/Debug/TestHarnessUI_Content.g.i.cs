@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("applicationtesticon.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("chemicalflask.ico")]
 
 

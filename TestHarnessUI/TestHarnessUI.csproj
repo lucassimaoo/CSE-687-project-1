@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ApplicationTestIcon.ico</ApplicationIcon>
+    <ApplicationIcon>ChemicalFlask.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -106,6 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ApplicationTestIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ChemicalFlask.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ChemicalFlask.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
