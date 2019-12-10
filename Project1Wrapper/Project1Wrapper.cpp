@@ -5,10 +5,11 @@
 #include "../Message/Message.h"
 #include "../MsgPassingComm/Comm.h"
 #include "../Project1/TestHarness.h"
+#include "Project1Wrapper.h"
 #include "TestHarness.h"
 
 
-void sendMessages(std::vector<std::string> paths, MsgPassingCommunication::EndPoint serverEP) {
+void Project1Wrapper::sendMessages(std::vector<std::string> paths, MsgPassingCommunication::EndPoint serverEP) {
 
 	MsgPassingCommunication::Comm comm(MsgPassingCommunication::EndPoint("localhost", 9891), "client1Comm");
 	comm.start();
@@ -25,7 +26,7 @@ void sendMessages(std::vector<std::string> paths, MsgPassingCommunication::EndPo
 	comm.stop();
 }
 
-int main(std::vector<std::string> paths) {
+void Project1Wrapper::main(std::vector<std::string> paths) {
 	// Create Test Harness (RESULT Log Level) and supply unit tests
 	CLI::TestHarness testHarness(::TestHarness::LogLevel::DEBUG);
 

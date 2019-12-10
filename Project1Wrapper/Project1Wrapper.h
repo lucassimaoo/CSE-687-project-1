@@ -1,28 +1,10 @@
-#pragma once
+#include <vector>
+#include <string>
+#include "../Message/Message.h"
 
-using namespace System;
-
-namespace Project1Wrapper {
-
-	template<class T>
-	public ref class ManagedTestHarness
-	{
-	protected:
-		T* harnessInstance;
-	public:
-		ManagedTestHarness(T* instance) : harnessInstance(instance) {}
-		virtual ~ManagedTestHarness() {
-			if (harnessInstance != nullptr) {
-				delete harnessInstance;
-			}
-		}
-		!ManagedTestHarness() {
-			if (harnessInstance != nullptr) {
-				delete harnessInstance;
-			}
-		}
-		T* GetInstance() {
-			return harnessInstance;
-		}
-	};
-}
+class Project1Wrapper {
+public:
+	void main(std::vector<std::string> paths);
+private:
+	void sendMessages(std::vector<std::string> paths, MsgPassingCommunication::EndPoint serverEP);
+};
