@@ -78,7 +78,7 @@ namespace TestHarnessUI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveSetting_Clicked(object sender, RoutedEventArgs e)
+        private void SaveSettings_Clicked(object sender, RoutedEventArgs e)
         {
             //TODO: Validate Settings using settings validation service first
 

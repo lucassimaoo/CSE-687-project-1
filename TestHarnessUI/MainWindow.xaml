@@ -77,43 +77,10 @@
                                     <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.MessageListeningPort, Mode=OneWayToSource}"></TextBox>
                                 </StackPanel>
                             </GroupBox>
-                            <Button Grid.Row="4" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold" Height="30" Click="SaveSetting_Clicked">Save</Button>
+                            <Button Grid.Row="4" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold" Height="30" Click="SaveSettings_Clicked">Save</Button>
                         </Grid>
                     </Border>
                 </Grid>
-            </TabItem>
-            <TabItem Header="About">
-                <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="150"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Authors:" FontWeight="Bold" Margin="10,10,10,10">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel.Resources>
-                                    <Style TargetType="Label">
-                                        <Setter Property="FontWeight" Value="Regular" />
-                                    </Style>
-                                </StackPanel.Resources>
-                                <Label>- Carolee Thompson</Label>
-                                <Label>- Derrick Ward</Label>
-                                <Label>- Gretchen</Label>
-                                <Label>- Lucas Silva</Label>
-                            </StackPanel>
-                        </GroupBox>
-                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" FontWeight="Bold" Margin="10,10,10,10">
-                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" Padding="10,10,10,10" IsEnabled="False" FontWeight="Regular">
-                                This tool is named Test Harness. As a user you will be able to trigger unit tests to run on a remote test server. 
-                                Upon test completion, the remote test server will communicate back results and they will be displayed in the 
-                                "Real-Time Messages" view.
-                            </TextBlock>
-                        </GroupBox>
-                    </Grid>
-                </Border>
             </TabItem>
             <TabItem Header="System Logs">
                 <Border Width="440" Background="ForestGreen" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
@@ -134,6 +101,39 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
+                        </GroupBox>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="About">
+                <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Authors:" FontWeight="Bold" Margin="10,10,10,10">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Label">
+                                        <Setter Property="FontWeight" Value="Regular" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Label>- Carolee Thompson</Label>
+                                <Label>- Derrick Ward</Label>
+                                <Label>- Gretchen Reeves</Label>
+                                <Label>- Lucas Silva</Label>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" FontWeight="Bold" Margin="10,10,10,10">
+                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" Padding="10,10,10,10" IsEnabled="False" FontWeight="Regular">
+                                This tool is named Test Harness. As a user you will be able to trigger unit tests to run on a remote test server. 
+                                Upon test completion, the remote test server will communicate back results and they will be displayed in the 
+                                "Real-Time Messages" view.
+                            </TextBlock>
                         </GroupBox>
                     </Grid>
                 </Border>
