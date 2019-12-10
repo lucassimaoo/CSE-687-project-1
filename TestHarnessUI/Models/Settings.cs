@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+Name: Derrick Ward
+Class/Section: CSE 687 Object Oriented Design
+Project 4
+Description: This is the model that will hold network communication info/settings
+Date: 12/9/2019
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

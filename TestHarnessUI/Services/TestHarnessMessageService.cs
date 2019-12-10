@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestHarnessUI.Models;
+/*
+Name: Derrick Ward
+Class/Section: CSE 687 Object Oriented Design
+Project 4
+Description: This is a concrete implementation of the Message Service Interface, meant for talking to a Test Harness Server
+Date: 12/9/2019
+*/
 
 namespace TestHarnessUI.Services
 {

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestHarnessUI"
         mc:Ignorable="d"
-        Title="Test Harness 4.0" Height="450" Width="800">
+        Title="Test Harness 4.0" Height="450" Width="800" MinWidth="800">
     <StackPanel Orientation="Horizontal">
         <StackPanel.Resources>
             <Style TargetType="TabItem">
@@ -107,9 +107,9 @@
                         </GroupBox>
                         <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" FontWeight="Bold" Margin="10,10,10,10">
                             <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" Padding="10,10,10,10" IsEnabled="False" FontWeight="Regular">
-                                This tool is named Test Harness. It allows users to upload test file(s), in xml format, 
-                                to be processed by a remote test server. Upon test completion, the remote test server will
-                                communicate back results and they will be displayed in the "Real-Time Messages" view.
+                                This tool is named Test Harness. As a user you will be able to trigger unit tests to run on a remote test server. 
+                                Upon test completion, the remote test server will communicate back results and they will be displayed in the 
+                                "Real-Time Messages" view.
                             </TextBlock>
                         </GroupBox>
                     </Grid>
