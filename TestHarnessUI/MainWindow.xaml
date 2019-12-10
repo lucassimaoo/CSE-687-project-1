@@ -14,7 +14,7 @@
             </Style>
         </StackPanel.Resources>
         <TabControl Width="350">
-            <TabItem Header="Test Utility" HorizontalAlignment="Left">
+            <TabItem Header="Test Utility" Margin="-2,-2,2,0">
                 <Grid HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="350"></ColumnDefinition>
@@ -32,10 +32,10 @@
                             <GroupBox Grid.Row="0" Grid.Column="0" Header="Upload Test Files" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                     <TextBlock HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
-                                    <Button Width="80" Background="#ff3333" Foreground="White" FontWeight="Bold">Browse Files</Button>
+                                    <Button Width="80" Background="#00394d" Foreground="White" FontWeight="Bold">Browse Files</Button>
                                 </StackPanel>
                             </GroupBox>
-                            <Button Grid.Row="1" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold">Run Test(s)</Button>
+                            <Button Grid.Row="1" Grid.Column="0" Height="30" Background="#009933" Foreground="White" FontWeight="Bold">Run Test(s)</Button>
                         </Grid>
                     </Border>
                 </Grid>
@@ -59,25 +59,25 @@
                             </Grid.ColumnDefinitions>
                             <GroupBox Grid.Row="0" Grid.Column="0" Header="Test Server Host" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.TestServerHost, Mode=OneWayToSource}"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Grid.Row="1" Grid.Column="0" Header="Test Server Port" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.TestServerPort, Mode=OneWayToSource}"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Grid.Row="2" Grid.Column="0" Header="Message Listening Host" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.MessageListeningHost, Mode=OneWayToSource}"></TextBox>
                                 </StackPanel>
                             </GroupBox>
                             <GroupBox Grid.Row="3" Grid.Column="0" Header="Message Listening Port" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
+                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.MessageListeningPort, Mode=OneWayToSource}"></TextBox>
                                 </StackPanel>
                             </GroupBox>
-                            <Button Grid.Row="4" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold" Height="30">Save</Button>
+                            <Button Grid.Row="4" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold" Height="30" Click="SaveSetting_Clicked">Save</Button>
                         </Grid>
                     </Border>
                 </Grid>
@@ -92,11 +92,11 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Authors:" Margin="10,10,10,10">
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Authors:" FontWeight="Bold" Margin="10,10,10,10">
                             <StackPanel Orientation="Vertical">
                                 <StackPanel.Resources>
                                     <Style TargetType="Label">
-                                        <Setter Property="FontWeight" Value="Bold" />
+                                        <Setter Property="FontWeight" Value="Regular" />
                                     </Style>
                                 </StackPanel.Resources>
                                 <Label>- Carolee Thompson</Label>
@@ -105,12 +105,35 @@
                                 <Label>- Lucas Silva</Label>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" Margin="10,10,10,10">
-                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Padding="10,10,10,10" IsEnabled="False">
+                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" FontWeight="Bold" Margin="10,10,10,10">
+                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" Padding="10,10,10,10" IsEnabled="False" FontWeight="Regular">
                                 This tool is named Test Harness. It allows users to upload test file(s), in xml format, 
                                 to be processed by a remote test server. Upon test completion, the remote test server will
-                                communicate back results and they will be displayed in the "Rea-Time Messages" view.
+                                communicate back results and they will be displayed in the "Real-Time Messages" view.
                             </TextBlock>
+                        </GroupBox>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="System Logs">
+                <Border Width="440" Background="ForestGreen" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
+                    <Grid HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="350"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="System Messages" Margin="10,10,10,10" BorderBrush="Black">
+                            <ListBox Margin="10,10,10,10" ItemsSource="{Binding ApplicationMessages}" Background="Black">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Background="Black" Foreground="Green" Margin="10,10,10,10" FontWeight="Bold" IsEnabled="False" Text="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </GroupBox>
                     </Grid>
                 </Border>
@@ -125,9 +148,15 @@
                     <ColumnDefinition Width="435"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <GroupBox Grid.Row="0" Grid.Column="0" Header="Real-Time Messages" Margin="10,10,10,10" BorderBrush="Black">
-                    <TextBlock Background="Black" Foreground="Green" Margin="10,10,10,10" FontWeight="Bold" IsEnabled="False">
-
-                    </TextBlock>
+                    <ListBox Margin="10,10,10,10" ItemsSource="{Binding IncomingMessages}" Background="Black">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Background="Black" Foreground="Green" Margin="10,10,10,10" FontWeight="Bold" IsEnabled="False" Text="{Binding}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </GroupBox>
             </Grid>
         </Border>
