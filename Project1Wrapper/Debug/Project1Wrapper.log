@@ -1,0 +1,5 @@
+﻿  Project1Wrapper.cpp
+  TestHarness.cpp
+C:\Users\Admin\Documents\Projects\CSE-687-project-1\Project1Wrapper\Project1Wrapper.cpp(43,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?
+  Generating Code...
+C:\Users\Admin\Documents\Projects\CSE-687-project-1\Project1Wrapper\TestHarness.cpp(38,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?

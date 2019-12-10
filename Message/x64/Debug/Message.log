@@ -1,2 +1,2 @@
 ﻿  Message.cpp
-C:\Users\lucas\Documents\GitHub\Comm\Message\Message.cpp(280,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+C:\Users\Admin\Documents\Projects\CSE-687-project-1\Message\Message.cpp(280,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
