@@ -16,7 +16,7 @@ using TestHarnessUI.Models;
 
 namespace TestHarnessUI.Services
 {
-    public interface IMessageService
+    public interface IMessageService : IDisposable
     {
         /// <summary>
         /// Messaged Recieved Event Handler
@@ -28,12 +28,17 @@ namespace TestHarnessUI.Services
         /// </summary>
         /// <param name="settings"></param>
         /// <param name="testGroup"></param>
-        void SendMessage(Settings settings, TestGroup testGroup);
+        void SendMessage(Settings settings, string message);
 
         /// <summary>
         /// Starts Listening for Incoming Messages and Raises Message Received Event
         /// </summary>
         /// <param name="settings"></param>
         void StartListeningForMessages(Settings settings);
+
+        /// <summary>
+        /// Stops Listening for Incoming Messages
+        /// </summary>
+        void StopListeningForMessagesAsync();
     }
 }

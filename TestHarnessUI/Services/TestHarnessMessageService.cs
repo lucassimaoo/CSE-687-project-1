@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TestHarnessUI.Models;
 /*
@@ -16,6 +17,9 @@ namespace TestHarnessUI.Services
 {
     public class TestHarnessMessageService : IMessageService
     {
+        private Task _FetchMessageTask;
+        private CancellationTokenSource _FetchMessageTaskCancellationToken;
+
         public event EventHandler<string> MessageReceived;
 
         /// <summary>
@@ -23,9 +27,9 @@ namespace TestHarnessUI.Services
         /// </summary>
         /// <param name="settings"></param>
         /// <param name="testGroup"></param>
-        public void SendMessage(Settings settings, TestGroup testGroup)
+        public void SendMessage(Settings settings, string message)
         {
-            throw new NotImplementedException();
+            //TODO: Call Send Message in CLI Wrapper
         }
 
         /// <summary>
@@ -34,11 +38,50 @@ namespace TestHarnessUI.Services
         /// <param name="settings"></param>
         public void StartListeningForMessages(Settings settings)
         {
-            if (MessageReceived != null)
+            this.StopListeningForMessagesAsync();
+
+            // Create new Cancellation Token
+            this._FetchMessageTaskCancellationToken = new CancellationTokenSource();
+
+            // Start new Task to keep fetching new incoming messages
+            this._FetchMessageTask = Task.Run(() => { 
+                while (true)
+                {
+                    // If there are subscribers to the MessageReceived Event
+                    if (MessageReceived != null)
+                    {
+                        // Get Incoming Message
+                        string message = $"{DateTime.Now.ToString()}:\tTest Message";
+
+                        // Raise Event and pass message
+                        MessageReceived(this, message);
+                    }
+
+                    // Sleep thread so other threads (Main UI Thread) can wait up
+                    Thread.Sleep(500);
+                }
+            }, this._FetchMessageTaskCancellationToken.Token);
+        }
+
+        /// <summary>
+        /// Stops Listening for Incoming Messages
+        /// </summary>
+        public void StopListeningForMessagesAsync()
+        {
+            // Stop current task fetching new incoming messages
+            if (this._FetchMessageTask != null)
             {
-                string message = $"{DateTime.Now.ToString()}:\tTest Message";
-                MessageReceived(this, message);
+                this._FetchMessageTaskCancellationToken.Cancel();
+                this._FetchMessageTaskCancellationToken.Dispose();                
             }
+        }
+
+        /// <summary>
+        /// Runs Dispose Operations
+        /// </summary>
+        public void Dispose()
+        {
+            this.StopListeningForMessagesAsync();
         }
     }
 }

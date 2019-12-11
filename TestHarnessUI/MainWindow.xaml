@@ -45,11 +45,11 @@
                                         <ColumnDefinition Width="*"></ColumnDefinition>
                                         <ColumnDefinition Width="100"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Height="21" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox Name="TextBox_XmlFilePath" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Height="21" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
                                     <Button Grid.Row="0" Grid.Column="1" Width="100" HorizontalAlignment="Right" Background="#00394d" Foreground="White" FontWeight="Bold">Browse Files</Button>
                                 </Grid>
                             </GroupBox>
-                            <Button Grid.Row="1" Grid.Column="0" Height="30" Background="#009933" Foreground="White" FontWeight="Bold">Run Test(s)</Button>
+                            <Button Grid.Row="1" Grid.Column="0" Height="30" Background="#009933" Foreground="White" FontWeight="Bold" Click="RunTests_Click">Run Test(s)</Button>
                         </Grid>
                     </Border>
                 </Grid>
