@@ -5,35 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestHarnessUI"
         mc:Ignorable="d"
-        Title="Test Harness 4.0" Height="450" MinHeight="450" Width="800" MinWidth="800" MaxWidth="800">
-    <StackPanel Orientation="Horizontal">
-        <StackPanel.Resources>
+        Title="Test Harness 4.0" Height="450" MinHeight="450" Width="800" MinWidth="800">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.Resources>
             <Style TargetType="TabItem">
                 <Setter Property="Background" Value="#e6e6e6"></Setter>
                 <Setter Property="Foreground" Value="Black"></Setter>
             </Style>
-        </StackPanel.Resources>
-        <TabControl Width="350">
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch">
             <TabItem Header="Test Utility" Margin="-2,-2,2,0">
-                <Grid HorizontalAlignment="Left">
+                <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="350"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
-                        <Grid Grid.Column="0" HorizontalAlignment="Left">
+                    <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                        <Grid Grid.Column="0" HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="2*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="2*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="350"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Grid.Row="0" Grid.Column="0" Header="Upload Test Files" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBlock HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
-                                    <Button Width="80" Background="#00394d" Foreground="White" FontWeight="Bold">Browse Files</Button>
-                                </StackPanel>
+                            <GroupBox Grid.Row="0" Grid.Column="0" Header="Upload Test File (.xml)" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" BorderBrush="Black">
+                                <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Height="21" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBlock>
+                                    <Button Grid.Row="0" Grid.Column="1" Width="100" HorizontalAlignment="Right" Background="#00394d" Foreground="White" FontWeight="Bold">Browse Files</Button>
+                                </Grid>
                             </GroupBox>
                             <Button Grid.Row="1" Grid.Column="0" Height="30" Background="#009933" Foreground="White" FontWeight="Bold">Run Test(s)</Button>
                         </Grid>
@@ -41,12 +55,12 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Settings">
-                <Grid HorizontalAlignment="Left">
+                <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="350"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
-                        <Grid Grid.Column="0" HorizontalAlignment="Left">
+                    <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                        <Grid Grid.Column="0" HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -55,41 +69,49 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="350"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <GroupBox Grid.Row="0" Grid.Column="0" Header="Test Server Host" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.TestServerHost, Mode=OneWayToSource}"></TextBox>
-                                </StackPanel>
+                            <Grid.Resources>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="10,10,10,10" />
+                                    <Setter Property="VerticalAlignment" Value="Top" />
+                                    <Setter Property="Height" Value="50" />
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Height" Value="21"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Margin" Value="0,0,10,0"/>
+                                </Style>
+                            </Grid.Resources>
+                            <GroupBox Grid.Row="0" Grid.Column="0" Header="Test Server Host">
+                                <TextBox Text="{Binding Path=Settings.TestServerHost, Mode=OneWayToSource}"></TextBox>
                             </GroupBox>
-                            <GroupBox Grid.Row="1" Grid.Column="0" Header="Test Server Port" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.TestServerPort, Mode=OneWayToSource}"></TextBox>
-                                </StackPanel>
+                            <GroupBox Grid.Row="1" Grid.Column="0" Header="Test Server Port">
+                                <TextBox Text="{Binding Path=Settings.TestServerPort, Mode=OneWayToSource}"></TextBox>
                             </GroupBox>
-                            <GroupBox Grid.Row="2" Grid.Column="0" Header="Message Listening Host" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.MessageListeningHost, Mode=OneWayToSource}"></TextBox>
-                                </StackPanel>
+                            <GroupBox Grid.Row="2" Grid.Column="0" Header="Message Listening Host">
+                                <TextBox Text="{Binding Path=Settings.MessageListeningHost, Mode=OneWayToSource}"></TextBox>
                             </GroupBox>
-                            <GroupBox Grid.Row="3" Grid.Column="0" Header="Message Listening Port" Margin="10,10,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" BorderBrush="Black">
-                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                    <TextBox HorizontalAlignment="Left" Height="21" Width="200" TextWrapping="Wrap" Background="White" Margin="0,0,10,0" Text="{Binding Path=Settings.MessageListeningPort, Mode=OneWayToSource}"></TextBox>
-                                </StackPanel>
+                            <GroupBox Grid.Row="3" Grid.Column="0" Header="Message Listening Port">
+                                <TextBox Text="{Binding Path=Settings.MessageListeningPort, Mode=OneWayToSource}"></TextBox>
                             </GroupBox>
-                            <Button Grid.Row="4" Grid.Column="0" Background="#009933" Foreground="White" FontWeight="Bold" Height="30" Click="SaveSettings_Clicked">Save</Button>
+                            <Button Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" Background="#009933" Foreground="White" FontWeight="Bold" Height="30" Click="SaveSettings_Clicked">Save</Button>
                         </Grid>
                     </Border>
                 </Grid>
             </TabItem>
             <TabItem Header="System Logs">
-                <Border Width="440" Background="ForestGreen" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
-                    <Grid HorizontalAlignment="Left">
+                <Border Width="Auto" Background="ForestGreen" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="350"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <GroupBox Grid.Row="0" Grid.Column="0" Header="System Messages" Margin="10,10,10,10" BorderBrush="Black">
                             <ListBox Margin="10,10,10,10" ItemsSource="{Binding ApplicationMessages}" Background="Black">
@@ -106,14 +128,14 @@
                 </Border>
             </TabItem>
             <TabItem Header="About">
-                <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
+                <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="150"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <GroupBox Grid.Row="0" Grid.Column="0" Header="Authors:" FontWeight="Bold" Margin="10,10,10,10">
                             <StackPanel Orientation="Vertical">
@@ -139,13 +161,13 @@
                 </Border>
             </TabItem>
         </TabControl>
-        <Border Width="440" Background="#e6e6e6" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left">
-            <Grid HorizontalAlignment="Left">
+        <Border Grid.Row="0" Grid.Column="1" Background="#e6e6e6" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="435"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <GroupBox Grid.Row="0" Grid.Column="0" Header="Real-Time Messages" Margin="10,10,10,10" BorderBrush="Black">
                     <ListBox Margin="10,10,10,10" ItemsSource="{Binding IncomingMessages}" Background="Black">
@@ -160,5 +182,5 @@
                 </GroupBox>
             </Grid>
         </Border>
-    </StackPanel>
+    </Grid>
 </Window>
