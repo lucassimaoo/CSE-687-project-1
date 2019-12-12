@@ -24,6 +24,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TestHarnessUI.Models;
 using TestHarnessUI.Services;
+using TestHarnessUI.UserControls;
 
 namespace TestHarnessUI
 {
@@ -117,7 +118,8 @@ namespace TestHarnessUI
 
                 if (!settingsValidationModel.IsValid())
                 {
-                    //TODO: Show Settings Validation Messages
+                    this.ShowErrorWindow(settingsValidationModel.GetValidationMessages());
+
                     return;
                 }
 
@@ -144,17 +146,19 @@ namespace TestHarnessUI
 
                 if (!settingsValidationModel.IsValid())
                 {
-                    //TODO: Show Settings Validation Messages
+                    this.ShowErrorWindow(settingsValidationModel.GetValidationMessages());
+
                     return;
                 }
 
                 if (!File.Exists(this.TextBox_XmlFilePath.Text))
                 {
-                    //TODO: Show Error Message Stating file does not exist
+                    this.ShowErrorWindow(new List<string> { $"File Does Not Exist! '{this.TextBox_XmlFilePath.Text}'" });
+
                     return;
                 }
 
-                //TODO: Validate Xml File First
+                //TODO: Validate Xml File Next
 
                 // Read in all XML Content
                 string xmlContent = File.ReadAllText(this.TextBox_XmlFilePath.Text);
@@ -169,7 +173,52 @@ namespace TestHarnessUI
             this.LogSystemMessage($"Test Sent:\t{this.TextBox_XmlFilePath.Text}");
         }
 
-        //TODO: Add Event Handler for when Browse Files is clicked
+        /// <summary>
+        /// Event Handler for when Browse Files Button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BrowseFiles_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "XML Files (*.xml)|*.xml";
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                this.TextBox_XmlFilePath.Text = $"{openFileDialog.FileName}";
+            }
+        }
+
+        /// <summary>
+        /// Show Error Window
+        /// </summary>
+        private void ShowErrorWindow(List<string> issues)
+        {
+            ErrorWindow errorWindow = new ErrorWindow();
+
+            if (issues != null)
+            {
+                errorWindow.Issues = issues;
+            }
+
+            Window window = new Window
+            {
+                Title = "Error Window",
+                Content = errorWindow,
+                Width = 500,
+                Height = 300,
+                MinHeight = 300,
+                MinWidth = 500,
+                MaxHeight = 300,
+                MaxWidth = 500,
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            window.ShowDialog();
+        }
 
         /// <summary>
         /// Logs System Messages

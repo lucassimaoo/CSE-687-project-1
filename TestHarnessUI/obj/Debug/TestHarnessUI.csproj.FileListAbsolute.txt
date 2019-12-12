@@ -28,3 +28,6 @@ C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\obj\Debug\Test
 C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\obj\Debug\TestHarnessUI.csproj.CopyComplete
+C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\obj\Debug\TestHarnessUI.csprojAssemblyReference.cache
+C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\obj\Debug\UserControls\ErrorWindow.g.cs
+C:\Users\Derrick\Documents\GitHub\CSE-687-project-1\TestHarnessUI\obj\Debug\UserControls\ErrorWindow.baml

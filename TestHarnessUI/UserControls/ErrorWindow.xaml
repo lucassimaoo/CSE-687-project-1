@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="TestHarnessUI.UserControls.ErrorWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestHarnessUI.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="600" Background="Black">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition>
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Errors/Warnings:" Margin="10,10,10,10" FontWeight="Bold" Foreground="#e60000" FontSize="12">
+            <ListBox Margin="10,10,10,10" ItemsSource="{Binding Issues}" Background="Black">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Regular" Foreground="Red" Margin="10,10,10,10" IsEnabled="False" Text="{Binding}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>            
+        </GroupBox>
+    </Grid>
+</UserControl>

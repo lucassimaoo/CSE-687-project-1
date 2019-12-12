@@ -111,7 +111,7 @@ namespace TestHarnessUI.Services
             if (!isANumber)
             {
                 validationInfo.IsValid &= false;
-                validationInfo.ValidationMessages.Add("Test Server Port Setting Must Be An Integer!");
+                validationInfo.ValidationMessages.Add("Message Listening Port Setting Must Be An Integer!");
             }
 
             return validationInfo;

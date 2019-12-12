@@ -24,5 +24,16 @@ namespace TestHarnessUI.Models
                    && this.MessageListeningHost.IsValid
                    && this.MessageListeningPort.IsValid;
         }
+
+        /// <summary>
+        /// Gets a list of all validation messages
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetValidationMessages()
+        {
+            return this.TestServerHost.ValidationMessages.Concat(this.TestServerPort.ValidationMessages)
+                                                         .Concat(this.MessageListeningHost.ValidationMessages)
+                                                         .Concat(this.MessageListeningPort.ValidationMessages).ToList();
+        }
     }
 }
