@@ -1,0 +1,186 @@
+﻿<Window x:Class="TestHarnessUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestHarnessUI"
+        mc:Ignorable="d"
+        Title="Test Harness 4.0" Height="450" MinHeight="450" Width="800" MinWidth="800">
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.Resources>
+            <Style TargetType="TabItem">
+                <Setter Property="Background" Value="#e6e6e6"></Setter>
+                <Setter Property="Foreground" Value="Black"></Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch">
+            <TabItem Header="Test Utility" Margin="-2,-2,2,0">
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                        <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="2*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Grid.Row="0" Grid.Column="0" Header="Upload Test File (.xml)" Margin="10,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" BorderBrush="Black">
+                                <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Name="TextBox_XmlFilePath" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Height="21" TextWrapping="Wrap" Background="White" Margin="0,0,10,0"></TextBox>
+                                    <Button Grid.Row="0" Grid.Column="1" Width="100" HorizontalAlignment="Right" Background="#00394d" Foreground="White" FontWeight="Bold" Click="BrowseFiles_Click">Browse Files</Button>
+                                </Grid>
+                            </GroupBox>
+                            <Button Grid.Row="1" Grid.Column="0" Height="30" Background="#009933" Foreground="White" FontWeight="Bold" Click="RunTests_Click">Run Test(s)</Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings">
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                        <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                    <Setter Property="Margin" Value="10,10,10,10" />
+                                    <Setter Property="VerticalAlignment" Value="Top" />
+                                    <Setter Property="Height" Value="50" />
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="Height" Value="21"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Margin" Value="0,0,10,0"/>
+                                </Style>
+                            </Grid.Resources>
+                            <GroupBox Grid.Row="0" Grid.Column="0" Header="Test Server Host">
+                                <TextBox Text="{Binding Path=Settings.TestServerHost, Mode=OneWayToSource}"></TextBox>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1" Grid.Column="0" Header="Test Server Port">
+                                <TextBox Text="{Binding Path=Settings.TestServerPort, Mode=OneWayToSource}"></TextBox>
+                            </GroupBox>
+                            <GroupBox Grid.Row="2" Grid.Column="0" Header="Message Listening Host">
+                                <TextBox Text="{Binding Path=Settings.MessageListeningHost, Mode=OneWayToSource}"></TextBox>
+                            </GroupBox>
+                            <GroupBox Grid.Row="3" Grid.Column="0" Header="Message Listening Port">
+                                <TextBox Text="{Binding Path=Settings.MessageListeningPort, Mode=OneWayToSource}"></TextBox>
+                            </GroupBox>
+                            <Button Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" Background="#009933" Foreground="White" FontWeight="Bold" Height="30" Click="SaveSettings_Clicked">Save</Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <TabItem Header="System Logs">
+                <Border Width="Auto" Background="ForestGreen" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="System Messages" Margin="10,10,10,10" BorderBrush="Black">
+                            <ListBox Margin="10,10,10,10" ItemsSource="{Binding ApplicationMessages}" Background="Black">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Background="Black" Foreground="Green" Margin="10,10,10,10" FontWeight="Bold" IsEnabled="False" Text="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
+                    </Grid>
+                </Border>
+            </TabItem>
+            <TabItem Header="About">
+                <Border Grid.Column="0" Background="#e6f2ff" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Authors:" FontWeight="Bold" Margin="10,10,10,10">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Label">
+                                        <Setter Property="FontWeight" Value="Regular" />
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Label>- Carolee Thompson</Label>
+                                <Label>- Derrick Ward</Label>
+                                <Label>- Gretchen Reeves</Label>
+                                <Label>- Lucas Silva</Label>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Grid.Row="1" Grid.Column="0" Header="Purpose:" FontWeight="Bold" Margin="10,10,10,10">
+                            <TextBlock Background="Black" Foreground="Green" FontSize="15" TextWrapping="WrapWithOverflow" Margin="10,10,10,10" Padding="10,10,10,10" IsEnabled="False" FontWeight="Regular">
+                                This tool is named Test Harness. As a user you will be able to trigger unit tests to run on a remote test server. 
+                                Upon test completion, the remote test server will communicate back results and they will be displayed in the 
+                                "Real-Time Messages" view.
+                            </TextBlock>
+                        </GroupBox>
+                    </Grid>
+                </Border>
+            </TabItem>
+        </TabControl>
+        <Border Grid.Row="0" Grid.Column="1" Background="#e6e6e6" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <GroupBox Grid.Row="0" Grid.Column="0" Header="Real-Time Messages" Margin="10,10,10,10" BorderBrush="Black">
+                    <ListBox Margin="10,10,10,10" ItemsSource="{Binding IncomingMessages}" Background="Black">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Background="Black" Foreground="Green" Margin="10,10,10,10" FontWeight="Bold" IsEnabled="False" Text="{Binding}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
