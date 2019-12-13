@@ -89,7 +89,7 @@ string TestHarness::getLogLevel()
 // Begins Running all unit Test
 void TestHarness::runUnitTests(std::string file)
 {
-	testLogger.log("Running Unit Tests (With a Log Level of " + this->getLogLevel() + ")");
+	//testLogger.log("Running Unit Tests (With a Log Level of " + this->getLogLevel() + ")");
 
 	pugi::xml_document doc;
 	doc.load_file(file.c_str());
@@ -101,7 +101,6 @@ void TestHarness::runUnitTests(std::string file)
 
 		int testId = testCounter++;
 
-		testLogger.log("--------------------------------------------");
 		testLogger.log("Running Test " + std::to_string(testId) + "...");
 
 		//use this to load the DLL
@@ -119,18 +118,16 @@ void TestHarness::runUnitTests(std::string file)
 				testResult = this->execute(itest, testId);
 			}
 			else {
-				testLogger.log("could not find ITest method in DLL " + dll);
+				resultQueue.enQ("Test " + std::to_string(testId) + ": could not find ITest method in DLL " + dll);
 			}
 			// Free the DLL module.
 			FreeLibrary(hinstLib);
 		}
 		else {
-			testLogger.log("could not load DLL " + dll);
+			resultQueue.enQ("Test " + std::to_string(testId) + ": could not load DLL " + dll);
 		}
 
-		testLogger.log("--------------------------------------------");
-		testLogger.log("Test " + std::to_string(testId) + " Completed: Result -> " + (testResult == true ? "Pass" : "Fail"));
-
+		
 		if (testResult == true) {
 			passCount++; // Update passed test counter
 		}
@@ -139,14 +136,15 @@ void TestHarness::runUnitTests(std::string file)
 		}
     }
 
-	testLogger.log("FINISHED RUNNING ALL UNIT TESTS...");
+	testLogger.log("FINISHED RUNNING GROUP OF UNIT TESTS...");
 	testLogger.log("Pass: " + std::to_string(passCount) + " Fail: " + std::to_string(failCount) + "\n\n");
 }
 
 // Runs Unit Tests and Return Test Result
 bool TestHarness::execute(TestReturn(*unitTest)(), int testId) {
     bool testResult = false;
-
+	std::string result;
+	
     try
     {
 
@@ -168,41 +166,50 @@ bool TestHarness::execute(TestReturn(*unitTest)(), int testId) {
         testResult = testPredicate.getResult();
 
         // Log Test Predicate Information
-        this->logTestPredicate(testPredicate);
+		result = this->logTestPredicate(testPredicate);
+		// Enqueue message to send back
+		resultQueue.enQ(result);
+				
     }
     catch (exception & e)
     {
 		std::string s = e.what();
-		testLogger.log("Error Occured while running test: " + s);
+		// Enqueue message to send back
+		resultQueue.enQ("Error Occured while running test " + std::to_string(testId) + ": " + s);
+		
     }
 
     return testResult;
 }
 
 // Logs Test Predicate Information, based on test harness' log level
-void TestHarness::logTestPredicate(TestPredicate testPredicate)
+std::string TestHarness::logTestPredicate(TestPredicate testPredicate)
 {
+	std::ostringstream strStream;
+
     switch (this->logLevel)
     {
     case TestHarness::LogLevel::RESULT:
     {
         TestLogger testLogger(TestLogger::LogLevel::RESULT);
-        testLogger.logTestPredicate(testPredicate);
-        break;
+        strStream << testLogger.logTestPredicate(testPredicate);
+		break;
     }
     case TestHarness::LogLevel::INFO:
     {
         TestLogger testLogger(TestLogger::LogLevel::INFO);
-        testLogger.logTestPredicate(testPredicate);
+        strStream << testLogger.logTestPredicate(testPredicate);
         break;
     }
     case TestHarness::LogLevel::DEBUG:
     {
         TestLogger testLogger(TestLogger::LogLevel::DEBUG);
-        testLogger.logTestPredicate(testPredicate);
+        strStream << testLogger.logTestPredicate(testPredicate);
         break;
     }
     }
+	
+	return strStream.str();
 }
 
 void TestHarness::serverSocket() {
@@ -212,7 +219,7 @@ void TestHarness::serverSocket() {
 	EndPoint serverEP("localhost", 9890);
 	Comm comm(serverEP, "serverComm");
 	comm.start();
-
+	
 	Message msg;
 	while (true)
 	{
@@ -225,6 +232,7 @@ void TestHarness::serverSocket() {
 			ThreadPool<2>::CallObj exit = []() ->bool { return false; };
 			trpl.workItem(exit);
 			trpl.wait();
+			resultQueue.enQ("stop");
 			break;
 		}
 		else 
@@ -238,9 +246,45 @@ void TestHarness::serverSocket() {
 		}
 	}
 	comm.stop();
+
+}
+
+void TestHarness::resultSocket() {
+	SocketSystem ss;
+
+	//starting the result message socket
+	EndPoint serverEP("localhost", 9880);
+	Comm comm2(serverEP, "server2Comm");
+	EndPoint clientEP("localhost", 9881);
+	
+	comm2.start();
+	string result;
+
+	while (true)
+	{
+		result = resultQueue.deQ();
+		if (result == "stop") break;
+		Message msg1;
+		msg1.to(clientEP);
+		msg1.command(result);
+		msg1.name("server #2 : msg # 1");
+		comm2.postMessage(msg1);
+		
+	}
+	
+	Message msg1;
+	msg1.to(clientEP);
+	msg1.command("stop");
+	msg1.name("server #2 : msg # 1");
+	comm2.postMessage(msg1);
+	::Sleep(1000);
+	
+	comm2.stop();
 }
 
 std::thread TestHarness::server() {
 	std::thread t1([=] {serverSocket();});
-	return t1;
+	t1.detach();
+	std::thread t2([=] {resultSocket();});
+	return t2;
 }

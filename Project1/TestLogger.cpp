@@ -44,14 +44,23 @@ string TestLogger::convertTimeToStr(SYSTEMTIME st) {
 }
 
 // Logs Test Predicate Information, based on logger's log level
-void TestLogger::logTestPredicate(TestPredicate testPredicate)
+string TestLogger::logTestPredicate(TestPredicate testPredicate)
 {
+	//std::string logInfo;
+	std::ostringstream logInfo, logInfo2;
+	std::string logResult, logResult2, logResult3;
+    std:string timeString;
+
 	mu.lock();
     switch (this->logLevel)
     {
     case TestLogger::LogLevel::RESULT:
-        cout << "Test " << testPredicate.getTestId() << " Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl;
-        break;
+		timeString = this->convertTimeToStr(testPredicate.getStartTime());
+		timeString.erase(timeString.find_last_not_of("\n") + 1);
+		logInfo << "Test " << testPredicate.getTestId() << " Result: " << (testPredicate.getResult() == true ? "PASS " : "FAIL ")
+				<< " Test Start Time: " << timeString;
+		logInfo2 << " Test End Time: " << this->convertTimeToStr(testPredicate.getEndTime()) << endl;
+		break;
     case TestLogger::LogLevel::INFO:
         cout << "Test " << testPredicate.getTestId() << " Result: " << (testPredicate.getResult() == true ? "Pass" : "Fail") << endl << endl;
         this->logTestPredicateApplicationMessages(testPredicate);
@@ -67,6 +76,11 @@ void TestLogger::logTestPredicate(TestPredicate testPredicate)
         break;
     }
 	mu.unlock();
+	logResult = logInfo.str();
+	logResult2 = logInfo2.str();
+	logResult3 = logResult + logResult2;
+	
+	return logResult3;
 }
 
 // Logs Test Predicate's Application Specific Messages

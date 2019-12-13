@@ -16,7 +16,7 @@ public:
     enum LogLevel { RESULT, INFO, DEBUG };
     TestLogger(TestLogger::LogLevel logLevel);
     ~TestLogger();
-    void logTestPredicate(TestPredicate testPredicate);
+    std::string logTestPredicate(TestPredicate testPredicate);
 	void log(std::string message);
 private:
     LogLevel logLevel;
